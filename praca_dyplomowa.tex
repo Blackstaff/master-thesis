@@ -1,0 +1,138 @@
+\documentclass[a4paper,12pt,twoside,openany]{report}
+%
+% Wzorzec pracy dyplomowej
+% J. Starzynski (jstar@iem.pw.edu.pl) na podstawie pracy dyplomowej
+% mgr. inż. Błażeja Wincenciaka
+% Wersja 0.1 - 8 października 2016
+%
+\usepackage{polski}
+\usepackage{helvet}
+\usepackage{xunicode}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{anyfontsize}
+\usepackage{xltxtra}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[polish]{babel}
+\usepackage{subfigure}
+\usepackage{amsfonts}
+\usepackage{verbatim}
+\usepackage{indentfirst}
+\usepackage[xetex]{hyperref}
+\usepackage[style=numeric]{biblatex}
+\usepackage{placeins}
+\usepackage{minted}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{float}
+
+\maxdeadcycles=900000000
+
+\bibliography{library}
+
+\setminted{autogobble=true}
+
+% Obramowanie dla środowiska "minted"
+\surroundwithmdframed[linewidth=1pt, backgroundcolor=white!5]{minted}
+
+% rozmaite polecenia pomocnicze
+% gdzie rysunki?
+\newcommand{\ImgPath}{./img}
+
+% oznaczenie rzeczy do zrobienia/poprawienia
+\newcommand{\TODO}{\textbf{TODO}}
+
+
+% wyroznienie slow kluczowych
+\newcommand{\tech}{\texttt}
+
+\newcommand{\omnetpp}{OMNeT++}
+
+% na oprawe (1.0cm - 0.7cm)*2 = 0.6cm
+% na oprawe (1.1cm - 0.7cm)*2 = 0.8cm
+%  oddsidemargin lewy margines na nieparzystych stronach
+% evensidemargin lewy margines na parzystych stronach
+\def\oprawa{1.05cm}
+\addtolength{\oddsidemargin}{\oprawa}
+\addtolength{\evensidemargin}{-\oprawa}
+
+% table span multirows
+\usepackage{multirow}
+\usepackage{enumitem}	% enumitem.pdf
+\setlist{listparindent=\parindent, parsep=\parskip} % potrzebuje enumitem
+
+%%%%%%%%%%%%%%% Dodatkowe Pakiety %%%%%%%%%%%%%%%%%
+\usepackage{prmag2017}   % definiuje komendy opieku,nrindeksu, rodzaj pracy, ...
+
+%%%%%%%%%%%%%%% Strona Tytułowa %%%%%%%%%%%%%%%%%
+% To trzeba wypelnic swoimi danymi
+\title{
+Symulacje wybranych algorytmów trasowania dla bezprzewodowych sieci czujnikowych}
+
+% autor
+\author{Mateusz Czarnecki}
+\nrindeksu{244593}
+
+\opiekun{dr inż. Łukasz Makowski}
+\terminwykonania{1 lutego 2017} % data na oświadczeniu o samodzielności
+\rok{2017}
+
+
+% Podziekowanie - opcjonalne
+%\podziekowania{\input{podziekowania.tex}}
+
+% To sa domyslne wartosci
+% - mozna je zmienic, jesli praca jest pisana gdzie indziej niz w ZETiIS
+% - mozna je wyrzucic jesli praca jest pisana w ZETiIS
+%\miasto{Warszawa}
+%\uczelnia{POLITECHNIKA WARSZAWSKA}
+%\wydzial{WYDZIAŁ ELEKTRYCZNY}
+%\instytut{INSTYTUT ELEKTROTECHNIKI TEORETYCZNEJ\linebreak[1] I~SYSTEMÓW INFORMACYJNO-POMIAROWYCH}
+ \zaklad{ZAKŁAD SYSTEMÓW INFORMACYJNO-POMIAROWYCH}
+%\kierunekstudiow{INFORMATYKA}
+
+% domyslnie praca jest inzynierska, ale po odkomentowaniu ponizszej linii zrobi sie magisterska
+\pracamagisterska
+%%% koniec od P.W
+
+%\opinie{%
+%  \input{opiniaopiekuna.tex}
+%  \newpage
+%  \input{recenzja.tex}
+%}
+
+\streszczenia{
+  \input{streszczenia.tex}
+}
+
+\begin{document}
+\maketitle
+
+\input{chapters/1_wstep.tex}
+
+\input{chapters/wsn.tex}
+
+\input{chapters/narzedzia.tex}
+
+\input{chapters/implementacja.tex}
+
+\input{chapters/symulacje.tex}
+
+\input{chapters/analiza.tex}
+
+\input{chapters/wnioski.tex}
+
+
+%-----------------
+% Dodatki 
+%-----------------
+\appendix
+
+\printbibliography
+
+\zakonczenie  % wklejenie recenzji i opinii
+
+\end{document}
+%+++ END +++

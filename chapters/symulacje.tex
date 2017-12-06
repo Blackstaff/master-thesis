@@ -1,0 +1,62 @@
+\chapter{Symulacje}
+\section{Konfiguracja}
+W ramach pracy został przeprowadzony zestaw scenariuszy symulacyjnych. Każdy z zaimplementowanych protokołów został przetestowany z przygotowanymi zestawami parametrów wejściowych.
+Do tych parametrów należą:
+\paragraph{Dystrybucja węzłów sieci}
+Symulacje zostały przeprowadzone dla dwóch sposobów dystrybucji węzłów: zgodnej z rozkładem normalnym oraz zgodnej z rozkładem jednorodnym.
+
+Dla rozkładu normalnego średnia współrzędnej wynosiła 400m, a jej odchylenie standardowe 100m.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.55]{\ImgPath/charts/normal_distribution.png}
+	\end{center}
+	\caption{Przykładowa dystrybucja węzłów sieci zgodna z rozkładem normalnym}
+\end{figure}
+
+Z rozkładem jednorodnym węzły zostały rozłożone na obszarze o kształcie prostokąta i wymiarach 450m na 550m.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.55]{\ImgPath/charts/uniform_distribution.png}
+	\end{center}
+	\caption{Przykładowa dystrybucja węzłów sieci zgodna z rozkładem jednorodnym}
+\end{figure}
+
+\paragraph{Liczba węzłów sieci}
+Symulacje przeprowadzono dla sieci składającej się z dwudziestu oraz dwustu czujników.
+\paragraph{Rozmiar pakietu z danymi}
+Symulacje przeprowadzono dla rozmiarów pakietów 5B, 50B, 500B, 5000B.
+\paragraph{Częstotliwość generowania nowych danych}
+Symulacje przeprowadzono dla okresów: 5s, 10s, 15s, 20s.
+\paragraph{Początkowa wartość energii elektrycznej w węźle}
+Jako początkową wartość dla czujnika przyjęto 5J.
+%uzasadnić na krzywej zużycia baterii
+
+Dodatkowo dla protokołów z rodziny LEACH zdefiniowane zostały parametry:
+\paragraph{Procent cluster headów w sieci}
+\paragraph{Długość rundy}
+%\paragraph{Współczynnik kompresji danych przez cluster heady}
+
+W celu zniwelowania wpływu losowości, dla każdego pojedynczego zestawu parametrów wykonano 5 przebiegów symulacji z różnym ziarnem. Wyniki tych przebiegów zostały uśrednione.
+
+Na poniższym listingu znajduje się fragment pliku konfiguracyjnego symulacji.
+\begin{verbatim}
+**.numSensors = ${numSensors = 20, 200, 2000}
+**.app.protocol = 59
+**.app.packetLength = ${packetLength = 5, 50, 500, 5000}B
+**.app.startTime = 1s + exponential(10ms)
+**.networkLayerType = "FloodNetworkLayer"
+**.sink.protocol = 59
+**.broadcastSinkAddress = false
+**.sink.nic.mac.address = "FF-FF-FF-FF-FF-FE"
+**.app.destAddresses = "FF-FF-FF-FF-FF-FE"
+**.np.sinkAddr = "FF-FF-FF-FF-FF-FE"
+**.radio.displayCommunicationRange = true
+**.app.sendInterval = ${sendInterval = 5, 10, 15, 20}s + exponential(10ms)
+
+**.sensor[*].energyStorage.nominalCapacity = ${nodeEnergy = 5}J
+**.sink.energyStorage.nominalCapacity = 4J * ${nodeEnergy}
+**.energyStorage.nodeShutdownCapacity = ${nodeEnergy} * 0.1J
+**.energyStorage.nodeStartCapacity = ${nodeEnergy} * 0.2J
+\end{verbatim}

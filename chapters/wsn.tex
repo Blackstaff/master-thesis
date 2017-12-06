@@ -1,0 +1,71 @@
+\chapter{Bezprzewodowe sieci czujnikowe}
+\section{Czujnik}
+Czujnik z technicznego punktu widzenia jest urządzeniem, którego zadaniem jest zbieranie informacji o obiektach i procesach fizycznych wraz ze zmianami ich stanu.\cite{Dargie2010}
+
+W celu stworzenia sieci czujników konieczne jest wcześniejsze zaprojektowanie i stworzenie pojedynczego węzła. Bardzo często narzucone są na nie dodatkowe ograniczenia: wielkość, pobór energii, koszt wytworzenia. Dodatkowo muszą posiadać odpowiednie czujniki, moduły komunikacyjne oraz moc obliczeniową odpowiednią do ich obsłużenia. W książce \cite{Karl2006} architekturę sprzętową pojedynczego węzła rozbito na pięć komponentów:
+\begin{enumerate}
+	\item Sterownik - komponent odpowiedzialny za przetwarzanie danych oraz wykonywanie instrukcji zawartych w kodzie
+	\item Pamięć - komponent przechowujący programy oraz dane
+	\item Czujniki i aktuatory - urządzenia zbierające informacje o środowisku zewnętrznym oraz urządzenia wpływające na jego stan
+	\item Komunikacja - komponent odpowiedzialny za wysyłanie oraz odbieranie danych za pośrednictwem bezprzewodowego kanału komunikacyjnego
+	\item Zasilanie - najczęściej są to baterie lub ogniwa słoneczne
+\end{enumerate}
+\section{Bezprzewodowa sieć czujników}
+\section{Zastosowanie}
+\section{Trasowanie w WSN}
+\subsection{Flood}
+Węzeł wysyłający pakiet rozgłasza go do najbliższych sąsiadów, którzy z kolei powtarzają ten krok, aż pakiet nie dotrze do wszystkich węzłów sieci lub nie osiągnie maksymalnej liczby skoków.
+W przypadku tego algorytmu, jeżeli istnieje droga łącząca źródło pakietu z celem, to cel z pewnością go otrzyma.
+Zaletą tego algorytmu jest jego prostota. Do wad natomiast zalicza się duży ruch pakietów w sieci. W celu jego ograniczenia oraz zapewnienia aby pakiet nie był wysyłany w nieskończoność stosowane są dwa mechanizmy \cite{Dargie2010}:
+\begin{itemize}
+	\item maksymalna liczba przeskoków pakietu
+	\item numery sekwencji pakietów - pakiety otrzymują kolejne numery, które wraz z adresem węzła wysyłającego umożliwiają jego identyfikację. Dzięki temu węzły mogą przechowywać historię otrzymanych (oraz rozgłoszonych dalej pakietów) i w momencie w którym taki pakiet ponownie otrzymają - go odrzucić.
+\end{itemize}
+
+Mechanizmy te jednakże nie rozwiązują następujących problemów występujących w protokole Flood \cite{Dargie2010}:
+\begin{itemize}
+	\item Implozja - węzeł, który otrzymał pakiet rozgłasza go do swoich sąsiednich węzłów niezależnie od tego, czy otrzymały one już ten pakiet od innego węzła. Prowadzi to do niepotrzebnego zużycia zasobów. %Dorzucić obrazek
+	\item Redundancję geograficzną - pakiety wysyłane przez węzły monitorujące pokrywające się obszary są traktowane jako kompletnie od siebie różne (brak fuzji danych), co prowadzi do marnowania zasobów (ta sama informacji wysyłana jest wielokrotnie). %Dorzucić obrazek
+	\item Nieuwzględnianie zasobów węzła - ze względu na swoją prostotę algorytm nie bierze pod uwagę aktualnych zasobów węzła sieci.
+\end{itemize}
+\subsection{SPIN}
+Protokół SPIN (Sensor Protocols for Information via Negotiation) jest rodziną protokołów trasowania typu płaskiego. Do rozsyłania informacji po sieci wykorzystują negocjację. Do ich przeprowadzenia wykorzystują pakiety zawierające metadane opisujące przesyłane wiadomości. Dzięki temu możliwe jest wyeliminowanie redundancji transmisji występujące w protokołach typu Flood.
+
+Projekt protokołów SPIN wyrósł z protokołów Flood. Twórcy zauważyli trzy podstawowe problemy w tego typu podejściu:
+\begin{itemize}
+	\item Implozję
+	\item Redundancję geograficzną
+	\item Nieuwzględnianie zasobów
+\end{itemize}
+
+Innowacjami w stosunku do protokołu Flood są negocjacja oraz adaptacja w zależności od zasobów.
+
+\paragraph{Negocjacja} W celu rozwiązania problemów związanych z implozją oraz przenikaniem się monitorowanych obszarów, przed wysłaniem pakietu węzły negocjują między sobą. Do negocjacji wykorzystywane są dodatkowe informacje o pakietach - meta-dane. 
+Meta-dane wykorzystywane są do precyzyjnego opisu danych zbieranych przez czujniki. Rozmiar w bajtach meta-danych musi być mniejszy od rozmiaru samego pakietu z danymi, aby rozwiązanie miało sens.
+Sam protokół nie narzuca tego co meta-dane powinny zawierać. Jest to zależne od konkretnego rozwiązania oraz implementacji. Może to być np. identyfikator węzła, współrzędne geograficzne, itd. Specyfikacja, przechowywanie oraz przetwarzanie meta-danych wykracza poza algorytm SPIN.
+W protokole SPIN węzły komunikują się za pomocą trzech rodzajów pakietów:
+\begin{itemize}
+	\item ADV - ogłoszenie nowych danych. Jest to pakiet zawierający meta-dane. Ogłasza on węzłom pojawienie się nowych danych
+	\item REQ - zgłoszenie zamówienia na dany pakiet z danymi. Węzeł, który chce otrzymać konkretny pakiet wysyła wiadomość z jego meta-danymi (tymi, które otrzymał w ADV)
+	\item DATA - pakiet zawierający właściwe dane z czujnika wraz z meta-danymi
+\end{itemize}
+Jako, że pakiety ADV i REQ zawierają tylko meta-dane, są one tańsze do wysłania niż DATA.
+
+W skład rodziny algorytmów SPIN wchodzą cztery protokoły: SPIN-PP, SPIN-EC, SPIN-BC, SPIN-RL. Jako, że protokoły SPIN-PP oraz SPIN-EC nie przeznaczone są dla sieci point-to-point, opisane zostaną dwa pozostałe protokoły \cite{Dargie2010, Kulik2002}.
+
+Protokół zaczyna się od wysłania pakietu ADV przez węzeł, który posiada nowe dane, które chce rozpropagować w sieci. Węzły sąsiednie, które otrzymały wiadomość ADV, sprawdzają czy otrzymały już takie dane. Jeśli reklamowane dane są dla nich nowe, wysyłają one wiadomość REQ z powrotem do nadawcy. Węzeł inicjujący negocjację po otrzymaniu wiadomości REQ wysyła dane w pakiecie DATA
+
+\subparagraph{SPIN-BC}
+W tym wariancie wykorzystany jest fakt, że węzły współdzielą medium komunikacyjne. Komunikacja pomiędzy dwoma węzłami może zostać ''podsłuchana'' przez węzły znajdujące się w zasięgu. Wszystkie pakiety wysyłane są w trybie rozgłoszeniowym, jako że dla sieci bezprzewodowej nie wiąże się to z dodatkowym kosztem.
+
+Wiadomość ADV jest rozgłaszana do wszystkich sąsiednich węzłów. Jednakże przed wysłaniem wiadomości REQ węzły czekają przez losowy okres. Jeżeli węzeł przechwycił wiadmość REQ dotyczącą tych samych danych, których i on potrzebuje, anuluje on wysyłkę swojej wiadomości REQ (nie jest potrzebna, redukuje to koszty). Pozwala to również na uniknięcie kolizji. Po otrzymaniu REQ węzeł wysyła pakiet DATA do kanału rozgłoszeniowego. Pakiet DATA jet wysyłany tylko raz, następujące po nim wiadomości REQ dotyczące tych samych danych są ignorowane.
+\subparagraph{SPIN-RL}
+SPIN-RL jest przystosowaniem SPIN-BC do warunków komunikacji stratnej. Każdy węzeł przechowuje listę wiadomości ADV i jeśli nie otrzyma on danych w odpowiednim czasie, to ponawia on wysyłkę zapytania o dane (REQ). Odbiorca jest losowany z listy węzłów które wysłały ogłoszenie o tych samych danych.
+Po wysyłce pakietu DATA musi upłynąć pewien odstęp czasowy przed ponowną wysyłką.
+
+%Zakończenie
+Zgodnie z badaniami opisanymi w artykule \cite{Kulik2002} protokoły SPIN są w stanie dostarczyć 60\% więcej danych w sieciach point-to-point i 80\% więcej danych w sieciach rozgłoszeniowych niż tradycyjne rozwiązania.  
+\subsection{LEACH}
+LEACH jest protokołem typu hierarchicznego, który wykorzystuje dwa poziomy grupowania węzłów. Pakiety trasowane są od czujników do Cluster Headów i od Cluster Headów do stacji bazowej \cite{Yu2006}.
+\subsection{ALEACH}
+\subsection{LEACH DCHS}
