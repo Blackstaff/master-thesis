@@ -1,18 +1,53 @@
 \chapter{Bezprzewodowe sieci czujnikowe}
-\section{Czujnik}
+Bezprzewodowe sieci czujnikowe są systemami składającymi się dużej liczby węzłów, z których każdy wyposażony w moduły umożliwiające gromadzenie, przetwarzanie oraz przesyłanie informacji \cite{Ilyas2004}, dzięki czemu możliwe staje się obserwowanie oraz reagowanie na zdarzenia występujące w objętym jej zasięgiem środowisku. Środowiskiem tym może mieć charakter zarówno fizyczny, jak też i biologiczny czy stanowić fragment systemu informatycznego. 
+\cite{Sohraby2006}
+Bezprzewodowa sieć czujnikowa składa się z czterech podstawowych elementów\cite{}:
+\begin{enumerate}
+	\item Zestawu czujników rozmieszczonych na określonym obszarze
+	\item Sieci łączącej te czujniki
+	\item Co najmniej jednego węzła gromadzącego dane z pozostałych
+	\item Węzłów lub zewnętrznej do sieci jednostki, której zadaniem jest przetworzenie zebranych danych
+\end{enumerate}
+Wartym odnotowania jest fakt, że przetwarzanie danych może się odbywać w samej sieci czujników, bez konieczności udziału zewnętrznych jednostek.
+
+Sieci czujnikowe są najczęściej same organizują swoją strukturę. Oznacza to, że hierarchia (lub jej brak) sieci oraz trasy pakietów są dynamicznie wypracowywane przez węzły sieci zgodnie z zaimplementowanymi protokołami.
+Do innych wyróżniających te sieci charakterystyk należą ograniczenia związane z dostępem do energii elektrycznej, czasem życia baterii, redundancja danych krążących w sieci oraz kolizje pakietów.
+
+Przykładami zastosowań są gromadzenie danych, monitoring, telemetria medyczna \cite{Biradar2009}.
+%\section{Czujnik}
+
 Czujnik z technicznego punktu widzenia jest urządzeniem, którego zadaniem jest zbieranie informacji o obiektach i procesach fizycznych wraz ze zmianami ich stanu.\cite{Dargie2010}
 
 W celu stworzenia sieci czujników konieczne jest wcześniejsze zaprojektowanie i stworzenie pojedynczego węzła. Bardzo często narzucone są na nie dodatkowe ograniczenia: wielkość, pobór energii, koszt wytworzenia. Dodatkowo muszą posiadać odpowiednie czujniki, moduły komunikacyjne oraz moc obliczeniową odpowiednią do ich obsłużenia. W książce \cite{Karl2006} architekturę sprzętową pojedynczego węzła rozbito na pięć komponentów:
 \begin{enumerate}
 	\item Sterownik - komponent odpowiedzialny za przetwarzanie danych oraz wykonywanie instrukcji zawartych w kodzie
 	\item Pamięć - komponent przechowujący programy oraz dane
-	\item Czujniki i aktuatory - urządzenia zbierające informacje o środowisku zewnętrznym oraz urządzenia wpływające na jego stan
+	\item Czujniki i aktuatory - urządzenia zbierające informacje o środowisku zewnętrznym oraz urządzenia wpływające na jego stan. Mogą to być między innymi czujniki wielkości elektrycznych, pola magnetycznego, wykrywacze fal radiowych, czujniki optyczne, elektrooptyczne, podczerwieni, lasery, radary, lokalizacyjne, fal sejsmicznych, badające parametry środowiskowe (pęd wiatru, temperaturę, wilgotność, ciśnienie), biochemiczne \cite{Sohraby2006}.
 	\item Komunikacja - komponent odpowiedzialny za wysyłanie oraz odbieranie danych za pośrednictwem bezprzewodowego kanału komunikacyjnego
 	\item Zasilanie - najczęściej są to baterie lub ogniwa słoneczne
 \end{enumerate}
-\section{Bezprzewodowa sieć czujników}
 \section{Zastosowanie}
 \section{Trasowanie w WSN}
+Bezprzewodowe sieci czujnikowe mają wiele wspólnego z sieciami przewodowymi i ad-hoc, jednakże wykazują również swoje własne, unikatowe cechy oraz związane z nimi wyzwania.
+Jedną z takich cech jest różnorodna gęstość sieci oraz liczba węzłów. Sieci czujnikowe mogą składać się z od kilkuset do kilku tysięcy węzłów rozmieszczonych w sposób losowy o różnorodnym zagęszczeniu. Zachowanie tych węzłów jest dynamiczne, jako że do ich zadań oprócz zbierania danych oraz przesyłania pakietów należy również oszczędzanie własnej energii. Dodatkowo duży wpływ na jakość połączenia mają wysokie poziomy szumu oraz interferencja.
+Istotnym wyzwaniem związanym z sieciami czujników jest również model danych oraz ich przepływu, który różni się w zależności od konkretnego rozwiązania, w którym sieć jest wykorzystywana. Węzły sieci mogą cyklicznie wysyłać do stacji bazowej próbkę danych. W modelu zdarzeniowym węzeł sieci wysyła pakiet po wystąpieniu określonego zjawiska. Istnieją również implementacje wymagające od węzłów sieci przetwarzania oraz agregacji danych przez węzeł przed ich wysyłką, czy takie, które wymagają komunikacji dwukierunkowej pomiędzy węzłami a stacją bazową.
+
+%Więcej wyzwań z Routing Protocols in Wireless Sensor Networks –
+%A Survey
+
+Taka różnorodność modeli przepływu danych oraz innych wyzwań wymagają zastosowania odpowiednio zoptymalizowanych algorytmów trasowania \cite{Abdullah2014, Sohraby2006}.
+
+Z powodu różnych potrzeb odnośnie trasowania pakietów zaproponowany został szereg metryk dotyczących zasobów sieci. Celem protokołów trasowania jest optymalizacja ich wykorzystania \cite{Dargie2010, Biradar2009}.
+
+Minimalizacja ścieżki pakietu do węzła bazowego
+
+Minimalizacja energii zużytej na wysłanie pakietu
+
+Maksymalizacja czasu, po którym następuje podział sieci
+
+Minimalizacja wariancji poziomów energii węzłów
+
+
 \subsection{Flood}
 Węzeł wysyłający pakiet rozgłasza go do najbliższych sąsiadów, którzy z kolei powtarzają ten krok, aż pakiet nie dotrze do wszystkich węzłów sieci lub nie osiągnie maksymalnej liczby skoków.
 W przypadku tego algorytmu, jeżeli istnieje droga łącząca źródło pakietu z celem, to cel z pewnością go otrzyma.
@@ -29,7 +64,7 @@ Mechanizmy te jednakże nie rozwiązują następujących problemów występując
 	\item Nieuwzględnianie zasobów węzła - ze względu na swoją prostotę algorytm nie bierze pod uwagę aktualnych zasobów węzła sieci.
 \end{itemize}
 \subsection{SPIN}
-Protokół SPIN (Sensor Protocols for Information via Negotiation) jest rodziną protokołów trasowania typu płaskiego. Do rozsyłania informacji po sieci wykorzystują negocjację. Do ich przeprowadzenia wykorzystują pakiety zawierające metadane opisujące przesyłane wiadomości. Dzięki temu możliwe jest wyeliminowanie redundancji transmisji występujące w protokołach typu Flood.
+Protokół SPIN (Sensor Protocols for Information via Negotiation) jest rodziną protokołów trasowania typu płaskiego. Do rozsyłania informacji po sieci wykorzystują negocjację. Do ich przeprowadzenia wykorzystują pakiety zawierające metadane opisujące przesyłane wiadomości. Dzięki temu możliwe jest wyeliminowanie redundancji transmisji występujące w protokołach typu Flood \cite{Chaudhary2015}.
 
 Projekt protokołów SPIN wyrósł z protokołów Flood. Twórcy zauważyli trzy podstawowe problemy w tego typu podejściu:
 \begin{itemize}
@@ -67,5 +102,23 @@ Po wysyłce pakietu DATA musi upłynąć pewien odstęp czasowy przed ponowną w
 Zgodnie z badaniami opisanymi w artykule \cite{Kulik2002} protokoły SPIN są w stanie dostarczyć 60\% więcej danych w sieciach point-to-point i 80\% więcej danych w sieciach rozgłoszeniowych niż tradycyjne rozwiązania.  
 \subsection{LEACH}
 LEACH jest protokołem typu hierarchicznego, który wykorzystuje dwa poziomy grupowania węzłów. Pakiety trasowane są od czujników do Cluster Headów i od Cluster Headów do stacji bazowej \cite{Yu2006}.
-\subsection{ALEACH}
-\subsection{LEACH DCHS}
+Węzły same organizują się w klastry, w których jeden węzeł pełni funkcję lokalnego węzła bazowego - nazywany jest on również Cluster Head. W przeciwieństwie do konwencjonalnych algorytmów lokalne węzły bazowe nie są wybierane a priori. Wybierane są rotacyjnie w sposób losowy, tak aby równomiernie rozłożyć zużycie energii oraz wybierać węzły z możliwie jak największą energią. Dodatkowo LEACH wykorzystuje fuzję danych w celu skompresowania ich ilości przesyłanych z klastra do stacji bazowej \cite{Akkaya2005}%\cite{Heinzelman00}.
+
+Działanie algorytmu podzielone jest na rundy. Każda runda składa się z fazy konfiguracyjnej, po której następuje faza stabilnego działania sieci. W fazie początkowej każdy węzeł decyduje o tym czy ma zostać lokalnym węzłem bazowym w aktualnej rundzie. Decyzja ta opiera się na zadanej przez użytkownika liczbie lokalnych węzłów bazowych w sieci (wyrażonej jako procent od liczby wszystkich węzłów sieci) oraz na fakcie uprzedniego bycia lokalnym węzłem bazowym.
+Algorytm ten przebiega w sposób następujący:
+\begin{enumerate}
+	\item Węzeł n losuje liczbę z zakresu od 0 do 1
+	\item Obliczany jest próg wyrażony poniższym wzorem
+	\[T(n) = \begin{dcases} 
+      \frac{P}{1-P*(rmod\frac{1}{P})} & n \in G \\
+      0 & n \not\in G \\
+   \end{dcases}
+	\]
+	, gdzie P - procent sieci, którą powinny stanowić lokalne węzły bazowe,
+	r - numer aktualnej rundy
+	G - zbiór węzłów, które nie były lokalnymi węzłami bazowymi przez ostatnie $\frac{1}{P}$ rund.
+	\item Jeżeli wylosowana liczba jest mniejsza od progu $T(n)$, to węzeł zostaje lokalnym węzłem bazowym.
+\end{enumerate}
+Taki wybór lokalnych węzłów bazowych gwarantuje, że każdy węzeł sieci zostanie nim w ciągu $\frac{1}{P}$ rund. Wszystkie węzły, które zostały wybrane jako lokalne węzły bazowe w pierwszej rundzie (o numerze 0) nie zostaną nimi przez kolejnych $\frac{1}{P}$ rund. Przez kolejne rundy wartość progu $T(n)$ rośnie. Funkcja została zaprojektowana w ten sposób, aby wraz ze zmniejszaniem się liczby węzłów, które mogą zostać potencjalnie wybrane na lokalne węzły bazowe prawdopodobieństwo ich wyboru rosło. Po $\frac{1}{P}$ rundach próg $T(n)$ wraca do stanu początkowego, tym samym rozpoczynając ponownie opisany cykl.
+\paragraph{ALEACH}
+\paragraph{LEACH DCHS}
