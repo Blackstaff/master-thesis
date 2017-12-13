@@ -1,4 +1,8 @@
-\section{Analiza danych}
+\section{Analiza i wizualizacja danych}
+Uruchomienie wszystkich scenariuszy symulacji spowodowało wygenerowanie dużej ilości danych (~300GB) rozłożonej na tysiące plików. W celu analizy takiej ilości danych napisany został skrypt w języku Ruby, którego zadaniem była decymacja oraz fuzja wszystkich plików.
+
+Do analizy oraz wizualizacji danych wykorzystany został język R wraz z pakietem ggplot2.
+
 Ogólna tendencja - im większy rozmiar pakietu oraz krótszy odstęp, tym  szybsze tempo wyłączania się węzłów sieci.
 
 Algorytmy Flood oraz SPIN wykazują jednakowe tempo spadku liczby aktywnych czujników, niezależne od rozmiaru pakietu oraz okresu między pakietami. W przypadku również większość czujników wyłącza się w bardzo krótkim przedziale czasowym. Oznacza to, że zużycie energii przez węzły jest równomierne (wszystkie czujniki są przez cały czas swojej aktywności w trybie nasłuchiwania - w przeciwieństwie do rodziny alogrytmów typu LEACH, w których występują okresy ''uśpienia'' czujników).

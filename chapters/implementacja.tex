@@ -1,5 +1,4 @@
 \chapter{Implementacja}
-\section{Framework}
 W ramach pracy powstała minibiblioteka zawierająca moduły ułatwiające implementację protokołów działających w ramach WSN. Stanowi ona rozszerzenie biblioteki INET, zawierającej moduły dla standardu IEEE 802.15.4.
 
 Biblioteka składa się z następujących modułów:
@@ -52,10 +51,9 @@ Głównymi funkcjami, które jednocześnie wywoływane są przez silnik symulacj
 
 \begin{minted}{cpp}
     virtual void handleSelfMessage(cMessage *msg) override;
-    /** @brief Handle messages from upper layer */
+
     virtual void handleUpperPacket(cPacket *) override;
 
-    /** @brief Handle messages from lower layer */
     virtual void handleLowerPacket(cPacket *) override;
 \end{minted}
 % flood jako akapit
@@ -70,7 +68,7 @@ Kod odpowiadający za logikę protokołu znajduje się w klasie SPIN, która dzi
 class SPIN : public NetworkProtocolBase, public INetworkProtocol
 \end{minted}
 
-Moduł po otrzymaniu pakietu z wyższej warstwy dokonuje decyzji, czy węzeł ma dostatecznie dużo energii, aby przeprowadzić negocjację. W przypadku pozytywnej decyzji rozpoczynany jest proces negocjacji. W przeciwnym wypadku dane rozgłaszane są bezpośrednio, z pominięciem negocjacji.
+Moduł po otrzymaniu pakietu z wyższej warstwy dokonuje decyzji, czy węzeł ma dostatecznie dużo energii, aby przeprowadzić negocjację. W przypadku pozytywnej decyzji rozpoczynany jest proces negocjacji. W przeciwnym wypadku dane rozgłaszane są bezpośrednio, z pominięciem negocjacji. Obrazuje to poniższy fragment kodu.
 
 \begin{minted}{cpp}
 void SPIN::handleUpperPacket(cPacket *m)
@@ -88,157 +86,60 @@ void SPIN::handleUpperPacket(cPacket *m)
 }
 \end{minted}
 
-Algorytm decyzyjny przedstawiony jest na poniższym listingu.
+Teoretyczny opis protokołu SPIN nie zawiera algorytmu, który węzły powinny wykorzystywać przy podejmowaniu decyzji czy rozpoczęcie procesu negocjacji jest zasadne z punktu widzenia konserwacji zasobów energetycznych. W implementacji zaproponowany więc został algorytm wykorzystujący funkcję wygładzającą o poniższym wzorze ogólnym:
+\[
+	f(x) = \frac{k*x}{k - x + 1}
+\]
 
+Jako parametr k przyjęte zostało 1,2, a jako zmienną x stosunek aktualnej energii węzła do jego energii maksymalnej. Po podstawieniu otrzymuje się poniższy wzór, który został wykorzystany bezpośrednio w implementacji: 
+
+\[
+	f(E_{akt}, E_{max}) = \frac{1.2 * \frac{E_{akt}}{E_{max}}}{1.2 - \frac{E_{akt}}{E_{max}} + 1}
+\]
+Algorytm decyzyjny przedstawiony jest na poniższym listingu. Z przedziału [0, 1] losowana jest liczba, która następnie porównywana jest z wartością wcześniej opisanej funkcji. Jeżeli wylosowana liczba jest od niej mniejsza, podejmowana jest pozytywna decyzja o podjęciu negocjacji.
 \begin{minted}{cpp}
 bool SPIN::isNegotiationViable()
 {
     double randomNumber = uniform(0, 1);
-    double currentEnergy = energyStorage->getResidualCapacity().get();
     double k = -1.2;
     double currentEnergyFrac = currentEnergy / maxEnergy;
 
-    return randomNumber < (k*currentEnergyFrac / (k - currentEnergyFrac + 1));
+    return randomNumber < (k*currentEnergyFrac / (k -
+        currentEnergyFrac + 1));
 }
-\end{minted}
-
-\begin{minted}{cpp}
-std::map<MsgMetadata, SPINDatagram*, MsgMetadataCompare> 
-    queuedMessages;
-std::map<MsgMetadata, SPINDatagram*, MsgMetadataCompare> 
-    queuedRequests;
-std::set<MsgMetadata, MsgMetadataCompare> knownMessages;
-std::set<MsgMetadata, MsgMetadataCompare> requestedMessages;
-\end{minted}
-
-\begin{minted}{cpp}
-    void advertiseData(SPINDatagram *msg);
-    void scheduleReq(MsgMetadata metadata, L3Address advertiser);
 \end{minted}
 \subsection{LEACH}
-\begin{minted}{cpp}
-void LEACH::handleUpperPacket(cPacket *m)
-{
-    if (!isSink) {
-        LEACHPacket *netPacket = encapsMsg(m, LEACH_DATA_PACKET);
-        if (!isCH && endFormClus) {
-            CHInfo info = *CHcandidates.begin();
-            netPacket->setDestAddr(info.src);
-            bufferPacket(netPacket);
-        } else if (!isCH && !endFormClus) {
-            tempTXBuffer.push(netPacket);
-        } else if (isCH) {
-            bufferAggregate.push_back(netPacket);
-        }
-    }
-}
-\end{minted}
-
-\begin{minted}{cpp}
-case LEACH_DATA_PACKET:
-            dest = msg->getDestAddr();
-            if (isCH && interfaceTable->isLocalAddress(dest)) {
-                bufferAggregate.push_back(msg);
-            } else if (interfaceTable->isLocalAddress(dest) && isSink) {
-                unpackAndSendUp(msg);
-            } else {
-                delete msg;
-            }
-break;
-\end{minted}
-
-\begin{minted}{cpp}
-case LEACH_ADV_PACKET:
-            if (!isCH && !isSink) {
-                CHInfo rec;
-                rec.src = msg->getSrcAddr();
-                rec.rssi = rssi;
-                CHcandidates.push_front(rec);
-            }
-            delete msg;
-break;
-\end{minted}
-
-\begin{minted}{cpp}
-case LEACH_JOIN_PACKET:
-            dest = msg->getDestAddr();
-            if (isCH && interfaceTable->isLocalAddress(dest)) {
-                clusterMembers.push_back(msg->getSrcAddr());
-            }
-            delete msg;
-break;
-\end{minted}
-
-\begin{minted}{cpp}
-case LEACH_TDMA_PACKET:
-            if (!isCH && !isSink) {
-                clusterLength = msg->getScheduleArraySize();
-                slotLength = roundLength*0.9 / clusterLength;
-                for (int i = 0; i < clusterLength; i++) {
-                    if (msg->getSchedule(i) == myNetwAddr) {
-                        setStateSleep();
-                        setTimer(START_SLOT, i * slotLength);
-                        break;
-                    }
-                }
-            }
-            delete msg;
-break;
-\end{minted}
+Implementacja protokołu LEACH została wykonana na bazie implementacji z symulatora Castalia.
 \subsection{ALEACH}
 \begin{minted}{cpp}
 void ALEACH::selectCH()
 {
-    if (roundNumber >= (numSensors / expectedCHNum)) {
-        roundNumber = 0;
-        isCt = false;
-        isCH = false;
-    }
-
-    double randomNumber = uniform(0, 1);
-    if (isCH) {
-        isCH = false;
-        isCt = true;
-    }
-    double generalProb = (double)expectedCHNum / (double)(numSensors - expectedCHNum * (roundNumber % (numSensors / expectedCHNum) ));
-    double currentEnergy = energyStorage->getResidualCapacity().get();
-    double currentStateProb = (currentEnergy / maxEnergy) * ((double) expectedCHNum / numSensors);
-    if (isCt) {
-        probability = 0;
-    } else {
-        probability = generalProb + currentStateProb;
-    }
-    if (randomNumber < probability) {
-        isCH = true;
-    }
+    ...
+    double generalProb = (double)expectedCHNum / 
+        (double)(numSensors - expectedCHNum * 
+            (roundNumber % (numSensors / expectedCHNum) ));
+    double currentEnergy = 
+        energyStorage->getResidualCapacity().get();
+    double currentStateProb = (currentEnergy / maxEnergy) *
+        ((double) expectedCHNum / numSensors);
+    ...
 }
 \end{minted}
 \subsection{LEACH DCHS}
 \begin{minted}{cpp}
 void LEACH_DCHS::selectCH()
 {
-    if (roundNumber >= (1 / percentage)) {
-        roundNumber = 0;
-        isCt = false;
-        isCH = false;
-    }
-
-    double randomNumber = uniform(0, 1);
-    if (isCH) {
-        isCH = false;
-        isCt = true;
-    }
     double currentEnergy = energyStorage->getResidualCapacity().get();
-    if (isCt) {
+    if (wasCH) {
         probability = 0;
     } else {
         probability = percentage / (1 - percentage * (roundNumber % (int)(1/percentage)))
                 * (currentEnergy / maxEnergy + (notCHRounds / (1/percentage)) * (1 - (currentEnergy / maxEnergy)));
     }
     if (randomNumber < probability) {
-        isCH = true;
+        wasCH = true;
         notCHRounds = 0;
-    } else if (!isCt) {
+    } else if (!wasCH) {
         ++notCHRounds;
     }
 }

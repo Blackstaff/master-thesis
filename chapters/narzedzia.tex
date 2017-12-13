@@ -5,18 +5,29 @@ Rozdział ten opisuje narzędzia oraz technologie, które zostały użyte do sym
 \section{Przegląd narzędzi}
 \cite{Xian2008}
 \cite{Nayyar2015}
-\subsection{NS-2}
-\subsection{NS-3}
-\subsection{IKR}
-\subsection{openWNS}
-\subsection{Matlab}
-\subsection{OPNET}
-\subsection{J-Sim}
-\subsection{SensorSim}
-\subsection{NCTUns}
-\subsection{SSFNet}
-\subsection{QualNet}
-\subsection{SENSE}
+\subsection{Narzędzia komercyjne}
+\paragraph{QualNet}
+Komercyjny symulator sieci stworzony przez firmę Scalable Technologies. Umożliwia tworzenie modeli sieci składających się z trasowników, przełączników, serwerów, punktów dostępowych, radioodbiorników, anten wraz z gotowymi protokołami trasowania.
+
+\paragraph{OPNET}
+\paragraph{Matlab}
+\paragraph{LabView}
+\subsection{Narzędzia otwarte}
+\paragraph{NS-2} Jest to uznany symulator zdarzeń dyskretnych stworzony w 1989 roku. W symulatorze wykorzystywane są dwa języki: C++ oraz OTcl (Object Oriented Tool Command Language). C++ używany jest do implementacji protokołów oraz rozszerzania biblioteki symulacyjnej. Z kolei w języku OTcl pisane są skrypty, których zadaniem jest konfiguracja symulacji, topologii sieci, tworzenie scenariuszy testowych i prezentacja wyników. Do jego zalet z punktu widzenia symulacji bezprzewodowych sieci czujnikowych należą gotowe implementacje protokołów takich jak np. 802.11, 802.16, 802.15.4. Niestety nie zapewnia on symulacji  procesów badanych przez czujniki oraz wykorzystywany przez niego model zużycia energii, formaty pakietów i protokoły MAC odbiegają znacznie od tych używanych w rzeczywistych implementacjach bezprzewodowych sieci czujnikowych. Brak jest również wsparcia dla warstwy aplikacji. NS-2 dostępny jest za darmo.
+\paragraph{NS-3}
+Podobnie jak NS-2, NS-3 jest również uznanym symulatorem zdarzeń dyskretnych. Nie stanowi on jednak rozszerzenia ani kontynuacji NS-3. Jest to kompletnie nowy symulator z całkowicie innym interfejsem programistycznym. W NS-3 wszystkie symulacje pisane są w czystym C++, z możliwością skorzystania z Pythona. Nie posiada on interfejsu graficznego - w celu graficznej prezentacji wyników konieczne jest skorzystanie z zewnętrznych narzędzi. Zawiera moduły implementujące 802.15.4, 6LoWPAN i RPL.
+\paragraph{J-Sim}
+Jest to symulator oparty o architekturę komponentową. Umożliwia korzystanie z różnych języków skryptowych, takich jak Perl, Tcl i Python. J-Sim zawiera bibliotekę dedykowaną do symulacji bezprzewodowych sieci czujnikowych. Umożliwia przeprowadzanie symulacji z liczbą węzłów przekraczającą 1000.
+\paragraph{NetTopo Simulator}
+%\subsection{IKR}
+%\subsection{openWNS}
+%\subsection{Matlab}
+%\subsection{OPNET}
+%\subsection{SensorSim}
+%\subsection{NCTUns}
+%\subsection{SSFNet}
+%\subsection{QualNet}
+%\subsection{SENSE}
 \section{\omnetpp}
 \omnetpp jest zbudowanym w sposób modularny symulatorem zdarzeń dyskretnych. Stanowi on ogólne narzędzie umożliwiające przeprowadzanie symulacji między innymi: przewodowych oraz bezprzewodowych sieci komputerowych, systemów wieloprocesorowych, chmur obliczeniowych czy też ruchu miejskiego. Dla każdej bardziej wyspecjalizowanej dziedziny konieczne jest stworzenie nowego modelu (zbioru modułów) lub skorzystanie z jednego z już istniejących rozwiązań (np. INET, VEINS).\cite{Varga2017}
 \subsection{Moduły}
@@ -41,5 +52,3 @@ Do komunikacji moduły wykorzystują zdefiniowane (w pliku .ned) przez programis
 %Wstawić przykład
 \section{INET}
 INET jest biblioteką/modelem zawierającym implementacji wielu protokołów sieciowych (m.in. IPv4, IPv6, TCP, SCTP, UDP), jak również standardów komunikacji wykorzystywanych m.in. w sieciach czujników (IEEE 802.15.4).\cite{inet}
-
-%Opisać, że biblioteka zawierała błędy, opisać jakie błędy i jak zostały naprawione
