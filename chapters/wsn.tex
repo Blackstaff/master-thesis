@@ -26,6 +26,14 @@ W celu stworzenia sieci czujników konieczne jest wcześniejsze zaprojektowanie 
 	\item Komunikacja - komponent odpowiedzialny za wysyłanie oraz odbieranie danych za pośrednictwem bezprzewodowego kanału komunikacyjnego
 	\item Zasilanie - najczęściej są to baterie lub ogniwa słoneczne
 \end{enumerate}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.5]{\ImgPath/sensor_node.pdf}
+	\end{center}
+	\caption{Architektura węzła sieci czujnikowej}
+\end{figure}
+
 \section{Zastosowanie}
 \section{Trasowanie w WSN}
 Bezprzewodowe sieci czujnikowe mają wiele wspólnego z sieciami przewodowymi i ad-hoc, jednakże wykazują również swoje własne, unikatowe cechy oraz związane z nimi wyzwania.
@@ -84,6 +92,14 @@ W protokole SPIN węzły komunikują się za pomocą trzech rodzajów pakietów:
 	\item REQ - zgłoszenie zamówienia na dany pakiet z danymi. Węzeł, który chce otrzymać konkretny pakiet wysyła wiadomość z jego meta-danymi (tymi, które otrzymał w ADV)
 	\item DATA - pakiet zawierający właściwe dane z czujnika wraz z meta-danymi
 \end{itemize}
+Przebieg negocjacji ilustruje poniższy schemat:
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.25]{\ImgPath/protocols/spin.pdf}
+	\end{center}
+	\caption{Przebieg negocjacji w protokole SPIN}
+\end{figure}
+
 Jako, że pakiety ADV i REQ zawierają tylko meta-dane, są one tańsze do wysłania niż DATA.
 
 W skład rodziny algorytmów SPIN wchodzą cztery protokoły: SPIN-PP, SPIN-EC, SPIN-BC, SPIN-RL. Jako, że protokoły SPIN-PP oraz SPIN-EC nie przeznaczone są dla sieci point-to-point, opisane zostaną dwa pozostałe protokoły \cite{Dargie2010, Kulik2002}.
