@@ -111,6 +111,7 @@ bool SPIN::isNegotiationViable()
 \subsection{LEACH}
 Implementacja protokołu LEACH została wykonana na bazie implementacji z symulatora Castalia.
 \subsection{ALEACH}
+W ALEACH zmieniony został sposób wyboru lokalnego węzła bazowego. W implementacji wykorzystany został mechanizm dziedziczenia. Klasa ALEACH stanowi rozszerzenie wcześniej zaimplementowanej klasy LEACH. Jedyną zmianą jest przesłonięcie funkcji selectCH za pomocą tej zdefiniowanej na listingu poniżej, która realizuje założenia zawarte w akapicie \nameref{para:aleach} zawartym w sekcji \ref{subsec:leach}.
 \begin{minted}{cpp}
 void ALEACH::selectCH()
 {
@@ -126,22 +127,17 @@ void ALEACH::selectCH()
 }
 \end{minted}
 \subsection{LEACH DCHS}
+Protokół Leach DCHS zaimplementowany został w sposób analogiczny do protokołu ALEACH.
 \begin{minted}{cpp}
 void LEACH_DCHS::selectCH()
 {
-    double currentEnergy = energyStorage->getResidualCapacity().get();
-    if (wasCH) {
-        probability = 0;
-    } else {
-        probability = percentage / (1 - percentage * (roundNumber % (int)(1/percentage)))
-                * (currentEnergy / maxEnergy + (notCHRounds / (1/percentage)) * (1 - (currentEnergy / maxEnergy)));
-    }
-    if (randomNumber < probability) {
-        wasCH = true;
-        notCHRounds = 0;
-    } else if (!wasCH) {
-        ++notCHRounds;
-    }
+   ...
+   probability = percentage / (1 - percentage * (roundNumber
+       % (int)(1/percentage)))
+       * (currentEnergy / maxEnergy +
+       (notCHRounds / (1/percentage))
+       * (1 - (currentEnergy / maxEnergy)));
+   ...
 }
 \end{minted}
 \section{Poprawa biblioteki INET}
