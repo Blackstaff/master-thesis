@@ -1,1 +1,10 @@
 \chapter{Wnioski}
+
+Ogólna tendencja - im większy rozmiar pakietu oraz krótszy odstęp, tym  szybsze tempo wyłączania się węzłów sieci.
+
+Algorytmy Flood oraz SPIN wykazują jednakowe tempo spadku liczby aktywnych czujników, niezależne od rozmiaru pakietu oraz okresu między pakietami. W przypadku również większość czujników wyłącza się w bardzo krótkim przedziale czasowym. Oznacza to, że zużycie energii przez węzły jest równomierne (wszystkie czujniki są przez cały czas swojej aktywności w trybie nasłuchiwania - w przeciwieństwie do rodziny alogrytmów typu LEACH, w których występują okresy ''uśpienia'' czujników).
+
+Sieci korzystające z protokołów LEACH, ALEACH i LEACH DCHS wykazują wyraźnie dłuższe działanie niż sieci używające Flood i SPIN.
+Różnice zacierają się dla większych rozmiarów pakietów i mniejszych odstępów czasu pomiędzy pakietami.
+
+Różnice pomiędzy grupami protokołów są wyraźniejsze dla sieci z liczbą węzłów 200.

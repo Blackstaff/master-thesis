@@ -3,17 +3,8 @@ Uruchomienie wszystkich scenariuszy symulacji spowodowało wygenerowanie dużej 
 
 Do analizy oraz wizualizacji danych wykorzystany został język R wraz z pakietem ggplot2.
 
-Ogólna tendencja - im większy rozmiar pakietu oraz krótszy odstęp, tym  szybsze tempo wyłączania się węzłów sieci.
-
-Algorytmy Flood oraz SPIN wykazują jednakowe tempo spadku liczby aktywnych czujników, niezależne od rozmiaru pakietu oraz okresu między pakietami. W przypadku również większość czujników wyłącza się w bardzo krótkim przedziale czasowym. Oznacza to, że zużycie energii przez węzły jest równomierne (wszystkie czujniki są przez cały czas swojej aktywności w trybie nasłuchiwania - w przeciwieństwie do rodziny alogrytmów typu LEACH, w których występują okresy ''uśpienia'' czujników).
-
-Sieci korzystające z protokołów LEACH, ALEACH i LEACH DCHS wykazują wyraźnie dłuższe działanie niż sieci używające Flood i SPIN.
-Różnice zacierają się dla większych rozmiarów pakietów i mniejszych odstępów czasu pomiędzy pakietami.
-
-Różnice pomiędzy grupami protokołów są wyraźniejsze dla sieci z liczbą węzłów 200.
-
 Poniższe wykresy przedstawiają liczbę aktywnych węzłów sieci w czasie oraz w zależności od rozmiaru pakietu i odstępie czasu pomiędzy kolejnymi pakietami. Sieć składała się z dwudziestu węzłów, które rozmieszczone zostały zgodnie z rozkładem normalnym.
-Przy rozmiarach pakietu wynoszących 50B i 500B najdłuższy czas działania sieci osiągnięto wykorzystując protokół ALEACH. Czas działania sieci używających wariantów protokołu LEACH uległ wyraźnemu skróceniu przy rozmiarze pakietu wynoszącym 5000B. Wpływ okres pomiędzy pakietami na protokoły typu LEACH jest również zauważalny, jednakże jest on zdecydowanie mniej wyrazisty. Czas działania sieci dla protokołów Flood i SPIN pozostaje niezmienny, niezależnie od dobranych parametów wykresu. Dodatkowo w ich przypadku deaktywacja węzłów sieci przebiega gwałtownie oraz lawinowo - większość węzłów sieci zostaje wyłączonych w okolicach jednego punktu w czasie.
+Przy rozmiarach pakietu wynoszących 50B i 500B najdłuższy czas działania sieci osiągnięto wykorzystując protokół ALEACH. Czas działania sieci używających wariantów protokołu LEACH uległ wyraźnemu skróceniu przy rozmiarze pakietu wynoszącym 5000B. Wpływ okres pomiędzy pakietami na protokoły typu LEACH jest również zauważalny, jednakże jest on zdecydowanie mniej wyrazisty. Czas działania sieci dla protokołów Flood i SPIN pozostaje niezmienny, niezależnie od dobranych parametrów wykresu. Dodatkowo w ich przypadku dezaktywacja węzłów sieci przebiega gwałtownie oraz lawinowo - większość węzłów sieci zostaje wyłączonych w okolicach jednego punktu w czasie.
 
 Przy rozmiarze pakietu 5B najlepszymi protokołami z punktu widzenia całkowitej długości życia sieci okazały się ALEACH oraz LEACH DCHS.
 
@@ -70,6 +61,11 @@ Poniższe wykresy przedstawiają liczbę aktywnych węzłów sieci w czasie oraz
      \vspace*{-5cm}
 \clearpage
 }
+
+Poniższe wykresy przedstawiają liczbę aktywnych węzłów sieci w czasie oraz w zależności od rozmiaru pakietu i odstępie czasu pomiędzy kolejnymi pakietami. Sieć składała się z dwudziestu węzłów, które rozmieszczone zostały zgodnie z rozkładem jednorodnym.
+Najdłuższy czas działania sieci został osiągnięty przez protokół ALEACH. Jest to najbardziej widoczne przy dłuższych odstępach pomiędzy kolejnymi pakietami z danymi.
+Tak samo, jak w poprzednio opisanych wynikach symulacji, zwiększenie rozmiaru danych oraz skrócenie czasu pomiędzy pakietami wpływa negatywnie na długość działania sieci oraz powoduje zacieranie się na tym polu różnic pomiędzy różnymi protokołami.
+
 
 \clearpage
 \thispagestyle{empty}

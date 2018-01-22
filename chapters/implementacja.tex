@@ -141,14 +141,22 @@ void LEACH_DCHS::selectCH()
 }
 \end{minted}
 \section{Poprawa biblioteki INET}
-Umożliwienie warstwie sieciowej dostępu do rssi. Problem został już wcześniej zasygnalizowany przez jednego z użytkowników, jednakże nie został on rozwiązany. Znajomość rssi jest niezbędna do prawidłowego działania algorytmów opartych na LEACH.
+Biblioteka INET jest aktywnie rozwijana oraz poprawiana. Jednakże część biblioteki implementująca moduły związane z sieciami czujnikowymi oraz sieciami typu BAN są zdecydowanie rzadziej aktualizowane. Konieczne okazało się więc stworzenie dedykowanych poprawek dla projektu.
 
-Dodanie możliwości zmiany modułu MAC w Ieee802154NarrowbandNic.
+\paragraph{Umożliwienie warstwie sieciowej dostępu do rssi} Problem został już wcześniej zasygnalizowany przez jednego z użytkowników, jednakże nie został on rozwiązany. Znajomość rssi jest niezbędna do prawidłowego działania algorytmów opartych na LEACH.
 
-Poprawa modułu IPvXTrafGen, tak aby prawidłowo zachowywał się podczas deaktywacji węzła.
+\paragraph{Dodanie możliwości zmiany modułu MAC w Ieee802154NarrowbandNic} W pierwotnej wersji rodzaj modułu MAC został zdefiniowany w sposób nie umożliwiający jego zmiany. Poprawka polega na wykorzystaniu zmiennej do przechowywania nazwy modułu MAC, który ma zostać dodany.
 
-Uzupełnienie modułu CSMA o funkcje obsługujące jego wyłączenie oraz ponowne włączenie. Przed poprawką, wyłącznie się symulowanego węzła (w wyniku zużycia energii) powodowało wystąpienie wyjątku i awaryjne zakończenie symulacji.
+\paragraph{Poprawa modułu IPvXTrafGen, tak aby prawidłowo zachowywał się podczas deaktywacji węzła} Klasa implementująca moduł IPvXTrafGen dziedziczyła po klasie cSimpleModule, która nie wchodzi bezpośrednio w skład biblioteki INET (jest częścią \omnetpp). W związku z tym nie zostały w niej zaimplementowane funkcje związane z aktywnością węzła. Problem ten został naprawiony poprzez dokonanie zmiany rodzica klasy IPvXTrafGen na klasę ApplicationBase z biblioteki INET. Stanowi ona bazę dla klas implementujących zachowania modułów prostych należących do warstwy aplikacji. Udostępnione zostały również dzięki temu interfejsy związane z aktywacją oraz dezaktywacją węzła sieci.
 
-Obsługę przypadku, gdy pakiet dociera do wyłączonego już węzła.
+\paragraph{Uzupełnienie modułu CSMA o funkcje obsługujące jego wyłączenie oraz ponowne włączenie} Przed poprawką, wyłącznie się symulowanego węzła (w wyniku zużycia energii) powodowało wystąpienie wyjątku i awaryjne zakończenie symulacji.
 
-Przeniesienie trzech poprawek autorstwa Floriana Kauera dotyczących szczegółów związanych z danymi zaczerpniętymi ze specyfikacji mikrokontrolera na podstawie której zdefiniowano domyślne parametry w Inecie.
+\paragraph{Obsługę przypadku, gdy pakiet dociera do wyłączonego już węzła} Dodana została obsługa przypadku brzegowego, w którym węzeł zostawał wyłączony podczas odbioru transmisji pakietu.
+\begin{minted}{cpp}
+bool Radio::handleNodeShutdown(...) {
+    ...
+    if (receptionTimer && receptionTimer->isScheduled())
+        abortReception(receptionTimer);
+    ...
+}
+\end{minted}
