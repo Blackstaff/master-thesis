@@ -1,9 +1,9 @@
 \section{Analiza i wizualizacja danych}
 Uruchomienie wszystkich scenariuszy symulacji spowodowało wygenerowanie dużej ilości danych (~300GB) rozłożonej na tysiące plików. W celu analizy takiej ilości danych napisany został skrypt w języku Ruby, którego zadaniem była decymacja oraz fuzja wszystkich plików.
 
-Do analizy oraz wizualizacji danych wykorzystany został język R wraz z pakietem ggplot2.
+Do analizy oraz wizualizacji danych wykorzystany został język R wraz z pakietem ggplot2. Wyniki zostały zaprezentowane za pomocą macierzy wykresów. Dla każdej topologii sieci powstały dwie takie macierze: jedna zawierająca wykresy liczby aktywnych czujników, druga natomiast zawiera wykresy przedstawiające sumę energii w całej sieci. Na wykresach energii sieci za pomocą przerywanych pionowych linii oznaczony został czas, po którym nastąpiło wyłączenie pierwszego węzła w sieci z powodu zbyt niskiego jej poziomu (poniżej 10\%). Od tego momentu uważa się, że sieć działa w trybie niestabilnym.
 
-Poniższe wykresy przedstawiają liczbę aktywnych węzłów sieci w czasie oraz w zależności od rozmiaru pakietu i odstępie czasu pomiędzy kolejnymi pakietami. Sieć składała się z dwudziestu węzłów, które rozmieszczone zostały zgodnie z rozkładem normalnym.
+Poniższe wykresy przedstawiają liczby aktywnych węzłów sieci i sumę energii sieci w czasie oraz w zależności od rozmiaru pakietu i odstępie czasu pomiędzy kolejnymi pakietami. Sieć składała się z dwudziestu węzłów, które rozmieszczone zostały zgodnie z rozkładem normalnym.
 Przy rozmiarach pakietu wynoszących 50B i 500B najdłuższy czas działania sieci osiągnięto wykorzystując protokół ALEACH. Czas działania sieci używających wariantów protokołu LEACH uległ wyraźnemu skróceniu przy rozmiarze pakietu wynoszącym 5000B. Wpływ okres pomiędzy pakietami na protokoły typu LEACH jest również zauważalny, jednakże jest on zdecydowanie mniej wyrazisty. Czas działania sieci dla protokołów Flood i SPIN pozostaje niezmienny, niezależnie od dobranych parametrów wykresu. Dodatkowo w ich przypadku dezaktywacja węzłów sieci przebiega gwałtownie oraz lawinowo - większość węzłów sieci zostaje wyłączonych w okolicach jednego punktu w czasie.
 
 Przy rozmiarze pakietu 5B najlepszymi protokołami z punktu widzenia całkowitej długości życia sieci okazały się ALEACH oraz LEACH DCHS.
@@ -11,6 +11,8 @@ Przy rozmiarze pakietu 5B najlepszymi protokołami z punktu widzenia całkowitej
 Przy rozmiarze pakietu 50B najlepszym protokołem z punktu widzenia całkowitej długości życia sieci okazał się ALEACH. W przypadku okresu między pakietami wynoszącym 20s zapewnił on około 50s dłuży czas działania sieci, jednakże protokoły LEACH oraz LEACH DCHS zapewniły dłuży okres jej stabilnego działania.
 
 Przy rozmiarze pakietu 500B wśród protokołów umożliwiających najdłuższe działanie sieci znajduje się ALEACH. Przy okresie 10s LEACH działa lepiej od LEACH DCSH, a w przy okresie 5s i 20s LEACH DCSH działa dłużej niż LEACH.
+
+Pomimo znacznej różnicy w długości działania sieci dla różnych protokołów trasowania, jej czas stabilnego działania jest podobny dla większości przypadków. Największe rozbieżności w tym zakresie pojawiają się dla rozmiaru danych 5B przy odstępie pomiędzy pakietami wynoszącym 20s. W tym przypadku najdłużej stabilnie sieć działa dla protokołu LEACH. 
 
 \clearpage
 \thispagestyle{empty}
@@ -36,7 +38,10 @@ Przy rozmiarze pakietu 500B wśród protokołów umożliwiających najdłuższe 
 \clearpage
 }
 
-Poniższe wykresy przedstawiają liczbę aktywnych węzłów sieci w czasie oraz w zależności od rozmiaru pakietu i odstępie czasu pomiędzy kolejnymi pakietami. Sieć składała się z dwustu węzłów, które rozmieszczone zostały zgodnie z rozkładem normalnym. Różnice pomiędzy wariantami protokołu LEACH są mniej wyraźne niż w przypadku sieci składającej się z dwudziestu węzłów. Najwrażliwszym na zmiany parametrów symulacji protokołem okazał się LEACH DCHS. Sieć go używająca działa wyraźnie krócej od pozostałych wariantów krótszych okresów pomiędzy pakietami oraz nieznacznie dłużej dla dłuższych okresów pomiędzy pakietami. Czas działania sieci dla protokołów Flood i SPIN podobnie jak w poprzednio pozostaje niezmienny, niezależnie od dobranych parametów wykresu.
+Poniższe wykresy przedstawiają liczby aktywnych węzłów sieci i sumy energii sieci w czasie oraz w zależności od rozmiaru pakietu i odstępu czasu pomiędzy kolejnymi pakietami. Sieć składała się z dwustu węzłów, które rozmieszczone zostały zgodnie z rozkładem normalnym. Różnice pomiędzy wariantami protokołu LEACH są mniej wyraźne niż w przypadku sieci składającej się z dwudziestu węzłów. Najwrażliwszym na zmiany parametrów symulacji protokołem okazał się LEACH DCHS. Sieć go używająca działa wyraźnie krócej od pozostałych wariantów dla mniejszych odstępów pomiędzy pakietami oraz nieznacznie dłużej dla większych odstępów pomiędzy pakietami. Czas działania sieci dla protokołów Flood i SPIN podobnie jak poprzednio pozostaje niezmienny, niezależnie od dobranych parametrów.
+LEACH okazał się najsprawniejszym protokołem dla rozmiaru danych wynoszącemu 50B przy odstępie czasowym pomiędzy pakietami równemu 5s.
+Czas działania sieci dla protokołów z rodziny LEACH uległ wydłużeniu w stosunku do sieci składającej się z dwudziestu węzłów.
+Różnice pomiędzy wariantami LEACH na wykresach przedstawiających zmiany sumy energii w czasie uległy większemu zatarciu.
 
 \clearpage
 \thispagestyle{empty}
@@ -90,6 +95,12 @@ Tak samo, jak w poprzednio opisanych wynikach symulacji, zwiększenie rozmiaru d
      \vspace*{-5cm}
 \clearpage
 }
+
+Poniższe wykresy przedstawiają liczbę aktywnych węzłów sieci w czasie oraz w zależności od rozmiaru pakietu i odstępie czasu pomiędzy kolejnymi pakietami. Sieć składała się z dwustu węzłów, które rozmieszczone zostały zgodnie z rozkładem jednorodnym.
+
+Przy rozmiarach danych wynoszących 5B oraz 50B oraz odstępach pomiędzy pakietami mniejszymi niż 20 sekund LEACH DCHS był najmniej wydajnym protokołem z rodziny LEACH. Gwałtowna zmiana nastąpiła dla odstępu pomiędzy pakietami wynoszącego 20 sekund, gdzie sieć wykorzystująca protokół LEACH DCHS działała najdłużej.
+
+Dla pozostałych wartości parametrów nie da się zauważyć istotnych różnic w działaniu wariantów LEACH. Sieci wykorzystujące protokoły SPIN oraz Flood mają podobną długość działania jak dla poprzednich scenariuszy testowych.
 
 \clearpage
 \thispagestyle{empty}
