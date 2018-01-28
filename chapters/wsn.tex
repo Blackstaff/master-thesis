@@ -145,6 +145,12 @@ Po dokonaniu wyborów klastrów przez węzły muszą one ów wybór zakomunikowa
 Po otrzymaniu informacji zwrotnej od węzłów, lokalne węzły bazowe tworzą harmonogramy TDMA na podstawie liczby węzłów w klastrze. Z pozostałego czasu rundy przeznaczonego na fazę stabilną wydzielane są dla każdego węzła przedziały czasowe, podczas których mogą one wysłać swoje pakiety z danymi do lokalnego węzła bazowego. Harmonogram zostaje rozgłoszony do wszystkich węzłów w klastrze.
 
 Po utworzeniu klastrów oraz harmonogramów TDMA, następuje faza stabilnego działania sieci, podczas której węzły przesyłają zebrane dane do lokalnych węzłów bazowych. Każdy węzeł transmituje pakiety w wyznaczonym dla niego przedziale czasowym. Transmisja odbywa się przy użyciu minimalnej energii, tak aby pakiet mógł dotrzeć do lokalnego węzła bazowego. Pozostałe węzły w klastrze (nie biorące udziału w transmisji) mogą w tym czasie wyłączyć odbiorniki radiowe w celu konserwacji energii. Po otrzymaniu pakietu z danymi, lokalny węzeł bazowy przetwarza go oraz agreguje zgodnie z zaimplementowanymi regułami. Sposób kompresji oraz agregacji sygnałów jest dostosowywany do specyfiki danych zbieranych przez sieć (np. dane o temperaturze mogą zostać uśrednione). Po zebraniu danych lokalny węzeł bazowy przesyła je w pakiecie do stacji bazowej, po czym następuje nowa runda.
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.3]{\ImgPath/protocols/leach.pdf}
+	\end{center}
+	\caption{LEACH}
+\end{figure}
 \paragraph{ALEACH (Advanced LEACH)} \label{para:aleach}
 ALEACH zmienia sposób wyboru lokalnego węzła bazowego. Nowy sposób obliczania progu $T(n)$ opiera się na nowych parametrach nazwanych prawdopodobieństwem aktualnego stanu oraz globalnym prawdopodobieństwie \cite{Ali2008}.
 
@@ -156,7 +162,7 @@ Prawdopodobieństwo aktualnego stanu ($CS_{p}$) wyrażone jest poniższym wzorem
 \[
 	CS_{p} = \frac{E_{aktualne}}{E_{n-max}}*\frac{K}{N}
 \]
-Gdzie $E_{aktualne}$ oznacza aktualną energię węzła, $E_{n-max}$ stanowi początkową energię sieci, $K$ spodziewaną liczbę lokalnych węzłów bazowych w rundzie, a $N$ liczbę wszystkich węzłów sieci.
+Gdzie $E_{aktualne}$ oznacza aktualną energię węzła, $E_{n-max}$ stanowi początkową energię sieci, $K$ spodziewaną liczbę lokalnych węzłów bazowych w rundzie, a $N$ liczbę wszystkich węzłów sieci. Im większa energia rezydualna w danym węźle, tym większe jest prawdopodobieństwo, że zostanie on lokalnym węzłem bazowym.
 
 Prawdopodobieństwo globalne natomiast liczone jest zgodnie ze wzorem \cite{Ali2008}:
 \[
