@@ -2,6 +2,15 @@
 % Wykorzystany symulator zdarzeń dyskretnych, opisać po krótce inne
 % 1-2 strony
 Rozdział ten opisuje narzędzia oraz technologie, które zostały użyte do symulacji działania sieci czujników, implementacji protokołów trasowania oraz przeprowadzenia testów.
+
+Projekty dotyczące  bezprzewodowych sieci czujnikowych są skompliowane zarówno w swojej złożoności, jak i skali. Konieczne stało się więc umożliwienie badania bezprzewodowych sieci czujnikowych w kontrolowanych warunkach. Z powodu wysokich nakładów finansowych oraz pracy jakie wiązałyby się z przeprowadzeniem takich testów z fizycznym sprzętem do tego celu wykorzystywane są symulacje stworzone w środowisku wirtualnym. Użyteczne oprogramowanie symulacyjne powinno spełniać  następujące cechy \cite{Xian2008}:
+\begin{itemize}
+	\item Oprogramowanie symulacyjne powinno kłaść szczególny nacisk na rozbudowane narzędzia do debugowania modeli symulacyjnych.
+	
+	\item Struktura modeli powinna odzwierciedlać hierarchiczną strukturę bezprzewodowych sieci czujnikowych. Modele powinny składać się z powiązanych ze sobą komponentów, które można ponownie wykorzystywać. Umożliwia to przyśpieszenie prac nad symulacjami.
+	
+	\item Oprogramowanie symulacyjne powinno definiować otwarty interfejs dla danych, aby możliwe było przetwarzanie danych wejściowych oraz wyjściowych za pomocą zewnętrznych narzędzi (np. możliwość załadowania danych wynikowych do bazy danych, wykorzystanie danych wynikowych w celu stworzenia wykresów oraz raportów).
+\end{itemize}
 \section{Przegląd narzędzi}
 \cite{Xian2008}
 \cite{Nayyar2015}
@@ -10,7 +19,19 @@ Rozdział ten opisuje narzędzia oraz technologie, które zostały użyte do sym
 Komercyjny symulator sieci stworzony przez firmę Scalable Technologies. Umożliwia tworzenie modeli sieci składających się z trasowników, przełączników, serwerów, punktów dostępowych, radioodbiorników, anten wraz z gotowymi protokołami trasowania.
 
 \paragraph{OPNET}
-\paragraph{Matlab}
+\cite{Fahmy2016}
+OPNET (Optimized Network Engineering Tool) powstał w 1987 roku, jako pierwszy komercyjne narzędzie do symulacji sieci komunikacyjnych. Zawiera w sobie rozbudowane środowisko programistyczne umożliwiające ich specyfikację, symulację oraz analizę wydajnościową. Wspierany jest przy tym szeroki zakres tych sieci, począwszy od prostych sieci LAN, a skończywszy na globalnych sieciach satelitarnych. OPNET jest symulatorem zdarzeń dyskretnych umożliwiającym analizę wydajnościową oraz zachowanie symulowanych systemów. Wspieranymi językami programowania są C oraz Java. Narzędzie to jest wykorzystywane w szerokim zakresie do badania działania protokołu TCP w standardzie ATM. Dodatkowo zawiera on implementacje takich protokołów trasowania jak: OSPF, RIP, EIGRP, BGP, IGRP, DSR, TORA, PNNI oraz gotowe implementacje MAC, mobilności węzłów, modeli poboru energii czy modeli należących do warstwy aplikacji.
+Oprócz wersji komercyjnej istnieje również darmowa wersja akademicka oprogramowania, jednakże zawiera ona tylko wcześniej zaimplementowane przez twórców modele protokołów oraz urządzeń bez możliwości dodania własnych lub modyfikacji istniejących. Jej głównym przeznaczeniem są symulacje różnych topologii sieci.
+\begin{figure}[H]
+	\begin{center}
+		\centering
+		\includegraphics[scale=0.5]{\ImgPath/tools/opnet.png} 
+	\end{center}
+	\caption{OPNET - przykładowy widok zawierający scenariusz z 75 węzłami. Źródło: \cite{MarghescuC.2011Soaw}}
+	\label{opnet}
+\end{figure}
+\paragraph{Matlab/Simulink}
+MATLAB/Simulink jest oprogramowaniem przeznaczonym do obliczeń numerycznych wyprodukowanym przez firmę Mathworks Inc.  Część pakietu o nazwie Simulink umożliwia modelowanie, symulację oraz analizę dynamicznych systemów. Dodatkowo zawiera on wiele narzędzi (toolkits) związanych z takimi domenami jak: przetwarzanie sygnałów cyfrowych, systemy sterowania, komunikacja czy systemy wbudowane. Dzięki dostępnym narzędziom możliwe jest stworzenie modeli symulacyjnych zintegrowanych z modelami sprzętowymi. Jest to popularne rozwiązanie w dziedzinie bezprzewodowych sieci czujnikowych. Matlab/Simulink jest dostępny na platformach Windows, Mac OS X i Linux \cite{Rajaram2016}. 
 \paragraph{LabView}
 \subsection{Narzędzia otwarte}
 \paragraph{NS-2} Jest to uznany symulator zdarzeń dyskretnych stworzony w 1989 roku. W symulatorze wykorzystywane są dwa języki: C++ oraz OTcl (Object Oriented Tool Command Language). C++ używany jest do implementacji protokołów oraz rozszerzania biblioteki symulacyjnej. Z kolei w języku OTcl pisane są skrypty, których zadaniem jest konfiguracja symulacji, topologii sieci, tworzenie scenariuszy testowych i prezentacja wyników. Do jego zalet z punktu widzenia symulacji bezprzewodowych sieci czujnikowych należą gotowe implementacje protokołów takich jak np. 802.11, 802.16, 802.15.4. Niestety nie zapewnia on symulacji  procesów badanych przez czujniki oraz wykorzystywany przez niego model zużycia energii, formaty pakietów i protokoły MAC odbiegają znacznie od tych używanych w rzeczywistych implementacjach bezprzewodowych sieci czujnikowych. Brak jest również wsparcia dla warstwy aplikacji. NS-2 dostępny jest za darmo.
@@ -18,6 +39,14 @@ Komercyjny symulator sieci stworzony przez firmę Scalable Technologies. Umożli
 Podobnie jak NS-2, NS-3 jest również uznanym symulatorem zdarzeń dyskretnych. Nie stanowi on jednak rozszerzenia ani kontynuacji NS-3. Jest to kompletnie nowy symulator z całkowicie innym interfejsem programistycznym. W NS-3 wszystkie symulacje pisane są w czystym C++, z możliwością skorzystania z Pythona. Nie posiada on interfejsu graficznego - w celu graficznej prezentacji wyników konieczne jest skorzystanie z zewnętrznych narzędzi. Zawiera moduły implementujące 802.15.4, 6LoWPAN i RPL.
 \paragraph{J-Sim}
 Jest to symulator oparty o architekturę komponentową. Umożliwia korzystanie z różnych języków skryptowych, takich jak Perl, Tcl i Python. J-Sim zawiera bibliotekę dedykowaną do symulacji bezprzewodowych sieci czujnikowych. Umożliwia przeprowadzanie symulacji z liczbą węzłów przekraczającą 1000.
+\begin{figure}[H]
+	\begin{center}
+		\centering
+		\includegraphics[scale=0.6]{\ImgPath/tools/jsim.png} 
+	\end{center}
+	\caption{Przykładowa symulacja w J-Sim. Źródło: \cite{KarkazisP.2012RmiJ}}
+	\label{jsim}
+\end{figure}
 \paragraph{NetTopo Simulator}
 %\subsection{IKR}
 %\subsection{openWNS}
