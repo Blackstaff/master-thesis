@@ -14,16 +14,15 @@ Sieci czujnikowe są najczęściej same organizują swoją strukturę. Oznacza t
 Do innych wyróżniających te sieci charakterystyk należą ograniczenia związane z dostępem do energii elektrycznej, czasem życia baterii, redundancja danych krążących w sieci oraz kolizje pakietów.
 
 Przykładami zastosowań są gromadzenie danych, monitoring, telemetria medyczna \cite{Biradar2009}.
-%\section{Czujnik}
 
 Czujnik z technicznego punktu widzenia jest urządzeniem, którego zadaniem jest zbieranie informacji o obiektach i procesach fizycznych wraz ze zmianami ich stanu.\cite{Dargie2010}
 
 W celu stworzenia sieci czujników konieczne jest wcześniejsze zaprojektowanie i stworzenie pojedynczego węzła. Bardzo często narzucone są na nie dodatkowe ograniczenia: wielkość, pobór energii, koszt wytworzenia. Dodatkowo muszą posiadać odpowiednie czujniki, moduły komunikacyjne oraz moc obliczeniową odpowiednią do ich obsłużenia. W książce \cite{Karl2006} architekturę sprzętową pojedynczego węzła rozbito na pięć komponentów:
 \begin{enumerate}
-	\item Sterownik - komponent odpowiedzialny za przetwarzanie danych oraz wykonywanie instrukcji zawartych w kodzie
-	\item Pamięć - komponent przechowujący programy oraz dane
+	\item Sterownik - komponent odpowiedzialny za zbieranie danych z czujników oraz ich przetwarzanie. Ponadto decyduje on kiedy oraz gdzie wysłać te dane oraz steruje zachowaniem aktuatorów. Funkcje te realizuje dzięki wykonywaniu instrukcji zawartych w kodzie uprzednio napisanych programów. Sterownik można zrealizować wykorzystując różne architektury układów scalonych. Najczęściej używane są mikrokontrolery. Głównymi ich zaletami są łatwość w komunikacji z urządzeniami zewnętrznymi takimi jak np. czujniki, niski pobór energii (mogą zostać również przełączone w tryb uśpienia) oraz łatwa programowalność.
+	\item Pamięć - komponent przechowujący programy oraz dane. Do przechowywania odczytów z czujników przed wysyłką lub przetworzniem oraz odebranych pakietów wykorzystuje się pamięć RAM. Programy zapisywane są w pamięci ROM, EEPROM lub Flash. Pamięć Flash bywa również używana do przechowywania pomiarów w sytuacjach, gdy pamięć RAM okazuje się niewystarczająca lub w celu zapisu danych z pamięci RAM przed wyłączeniem czujnika.   
 	\item Czujniki i aktuatory - urządzenia zbierające informacje o środowisku zewnętrznym oraz urządzenia wpływające na jego stan. Mogą to być między innymi czujniki wielkości elektrycznych, pola magnetycznego, wykrywacze fal radiowych, czujniki optyczne, elektrooptyczne, podczerwieni, lasery, radary, lokalizacyjne, fal sejsmicznych, badające parametry środowiskowe (pęd wiatru, temperaturę, wilgotność, ciśnienie), biochemiczne \cite{Sohraby2006}.
-	\item Komunikacja - komponent odpowiedzialny za wysyłanie oraz odbieranie danych za pośrednictwem bezprzewodowego kanału komunikacyjnego
+	\item Komunikacja - komponent odpowiedzialny za wysyłanie oraz odbieranie danych za pośrednictwem bezprzewodowego kanału komunikacyjnego. Najczęściej wykorzystywanym medium są fale radiowe - umożliwiają one wysyłanie danych na relatywnie długie dystanse przy małym zużyciu energii. 
 	\item Zasilanie - najczęściej są to baterie lub ogniwa słoneczne
 \end{enumerate}
 
@@ -34,7 +33,6 @@ W celu stworzenia sieci czujników konieczne jest wcześniejsze zaprojektowanie 
 	\caption{Architektura węzła sieci czujnikowej}
 \end{figure}
 
-\section{Zastosowanie}
 \section{Trasowanie w WSN}
 Bezprzewodowe sieci czujnikowe mają wiele wspólnego z sieciami przewodowymi i ad-hoc, jednakże wykazują również swoje własne, unikatowe cechy oraz związane z nimi wyzwania.
 Jedną z takich cech jest różnorodna gęstość sieci oraz liczba węzłów. Sieci czujnikowe mogą składać się z od kilkuset do kilku tysięcy węzłów rozmieszczonych w sposób losowy o różnorodnym zagęszczeniu. Zachowanie tych węzłów jest dynamiczne, jako że do ich zadań oprócz zbierania danych oraz przesyłania pakietów należy również oszczędzanie własnej energii. Dodatkowo duży wpływ na jakość połączenia mają wysokie poziomy szumu oraz interferencja.
