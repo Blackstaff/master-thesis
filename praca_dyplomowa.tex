@@ -21,7 +21,7 @@
 \usepackage{verbatim}
 \usepackage{indentfirst}
 \usepackage[xetex]{hyperref}
-\usepackage[style=numeric]{biblatex}
+\usepackage[style=numeric, giveninits=true, doi=false]{biblatex}
 \usepackage{placeins}
 \usepackage{minted}
 \usepackage{xcolor}
@@ -78,8 +78,8 @@ Symulacje wybranych algorytmów trasowania dla bezprzewodowych sieci czujnikowyc
 \nrindeksu{244593}
 
 \opiekun{dr inż. Łukasz Makowski}
-\terminwykonania{1 lutego 2017} % data na oświadczeniu o samodzielności
-\rok{2017}
+\terminwykonania{n stycznia 2019} % data na oświadczeniu o samodzielności
+\rok{2019}
 
 
 % Podziekowanie - opcjonalne
@@ -110,6 +110,7 @@ Symulacje wybranych algorytmów trasowania dla bezprzewodowych sieci czujnikowyc
 }
 
 \begin{document}
+\raggedbottom
 \maketitle
 
 \input{chapters/1_wstep.tex}
@@ -135,6 +136,8 @@ Symulacje wybranych algorytmów trasowania dla bezprzewodowych sieci czujnikowyc
 \printbibliography
 
 \listoffigures
+
+\input{chapters/dodatkowe_wykresy.tex}
 
 \zakonczenie  % wklejenie recenzji i opinii
 

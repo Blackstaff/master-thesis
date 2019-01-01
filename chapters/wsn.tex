@@ -1,26 +1,58 @@
 \chapter{Bezprzewodowe sieci czujnikowe}
-Bezprzewodowe sieci czujnikowe są systemami składającymi się dużej liczby węzłów, z których każdy wyposażony w moduły umożliwiające gromadzenie, przetwarzanie oraz przesyłanie informacji \cite{Ilyas2004}, dzięki czemu możliwe staje się obserwowanie oraz reagowanie na zdarzenia występujące w objętym jej zasięgiem środowisku. Środowiskiem tym może mieć charakter zarówno fizyczny, jak też i biologiczny czy stanowić fragment systemu informatycznego. 
+Bezprzewodowe sieci czujnikowe są systemami składającymi się dużej liczby węzłów, z których każdy wyposażony w moduły umożliwiające gromadzenie, przetwarzanie oraz przesyłanie informacji \cite{Ilyas2004}, dzięki czemu możliwe staje się obserwowanie oraz reagowanie na zdarzenia występujące w objętym jej zasięgiem środowisku. Środowiskiem tym może mieć charakter zarówno fizyczny, jak też i biologiczny, czy stanowić fragment systemu informatycznego. 
 \cite{Sohraby2006}
-Bezprzewodowa sieć czujnikowa składa się z czterech podstawowych elementów\cite{}:
+Bezprzewodowa sieć czujnikowa składa się z czterech podstawowych elementów\cite{Karl2006}:
 \begin{enumerate}
 	\item Zestawu czujników rozmieszczonych na określonym obszarze
 	\item Sieci łączącej te czujniki
 	\item Co najmniej jednego węzła gromadzącego dane z pozostałych
 	\item Węzłów lub zewnętrznej do sieci jednostki, której zadaniem jest przetworzenie zebranych danych
 \end{enumerate}
+W literaturze wyróżnia się również dodatkowo badane zjawisko oraz użytkownika chcącego uzyskać informacje na jego temat jako elementy składające się na architekturę sieci \cite{Tilak2002}.
+
 Wartym odnotowania jest fakt, że przetwarzanie danych może się odbywać w samej sieci czujników, bez konieczności udziału zewnętrznych jednostek.
 
 Sieci czujnikowe są najczęściej same organizują swoją strukturę. Oznacza to, że hierarchia (lub jej brak) sieci oraz trasy pakietów są dynamicznie wypracowywane przez węzły sieci zgodnie z zaimplementowanymi protokołami.
-Do innych wyróżniających te sieci charakterystyk należą ograniczenia związane z dostępem do energii elektrycznej, czasem życia baterii, redundancja danych krążących w sieci oraz kolizje pakietów.
 
-Przykładami zastosowań są gromadzenie danych, monitoring, telemetria medyczna \cite{Biradar2009}.
+Przed projektantami bezprzewodowych sieci czujnikowych stoi wiele wyzwań. W zależności od przeznaczenia oraz środowiska, w którym działa dana sieć wymagane jest inne podejście projektowe. Do pożądanych celów należą:
+\paragraph{Niski koszt oraz małe rozmiary czujników}
+Są one niezbędne w implementacjach bezprzewodowych sieci czujnikowych o szerokiej skali. W ramach kosztów należy uwzględnić zarówno koszt samej implementacji oraz wdrożenia, jak również koszty związane z utrzymaniem \cite{Howitt2006}.
 
-Czujnik z technicznego punktu widzenia jest urządzeniem, którego zadaniem jest zbieranie informacji o obiektach i procesach fizycznych wraz ze zmianami ich stanu.\cite{Dargie2010}
+\paragraph{Skalowalność architektury}
+Bezprzewodowe sieci czujnikowe często działają w kontekście heterogenicznych aplikacji o zróżnicowanych wymaganiach. Przy takich warunkach konieczne staje się stworzenie elastycznej oraz skalowalnej architektury bezprzewodowej sieci czujnikowej. Dodatkową, niezbędną cechą takich sieci jest kompatybilność z istniejącymi już systemami \cite{Pakzad2008}.
+
+\paragraph{Fuzja danych wraz z lokalnym ich przetwarzaniem}
+W celu zmniejszenia narzutu komunikacyjnego oraz przesyłania nadmiarowych danych węzły sieci powinny przesyłać do węzła bazowego uprzednio odfiltrowane oraz przetworzone dane \cite{Wu2017, Abdelgawad2012}.
+
+\paragraph{Optymalne korzystanie z dostępnych zasobów energetycznych}
+Oszczędność energii węzłów jest konieczna do zapewnienia odpowiedniej długości działania sieci. Sposób zużycia energii może zostać udoskonalony na poziomie każdej z warstw sieci czujników. Przykładami mogą być wydajne protokoły trasowania \cite{Pereira2016} oraz tryb oszczędzania energii w warstwie MAC \cite{Michael2006}.
+
+\paragraph{Samoorganizacja sieci}
+W bezprzewodowych sieciach czujnikowych topologia sieci jest dynamiczna. Spowodowane jest to przez usterki czujników, ich mobilność lub ich wyłączenie z powodu zużycia energii. Dzięki samoorganizacji liczba węzłów sieci może ulec zmianie bez wpływu na jej działanie \cite{Gungor2009}.
+
+\paragraph{Adaptacja do warunków sieciowych}
+Adaptacyjność sieci do zmiennych warunków medium bezprzewodowego jest niezbędna w zastosowaniach militarnych, przemysłowych oraz w monitoringu środowiska. Uzyskuje się ją dzięki wykorzystaniu odpowiednich algorytmów przetwarzania sygnałów oraz protokołów komunikacyjnych \cite{Gungor2009}.
+
+\paragraph{Synchronizacja}
+W bezprzewodowych sieciach czujnikowych samo zadanie zbierania danych oraz zebrane dane często podlegają ograniczeniom czasowym oraz są związane z opóźnieniami \cite{Alnuaimi2011}. Konieczna staje się więc synchronizacja węzłów sieci w czasie, aby spełnić wymagania narzucone na czas wykonywania operacji związanych z konkretną aplikacją sieci. Jednakże z powodu ograniczeń zasobów sieci oraz jej dynamicznej topologii nie mogą zostać zastosowane tradycyjne rozwiązanie zaprojektowane dla sieci przewodowych i bezprzewodowych. Konieczne staje się stworzenie protokołów synchronizacyjnych dedykowanych dla bezprzewodowych sieci czujnikowych \cite{Howitt2006}.
+
+\paragraph{Tolerancja na awarie}
+Punkt ten odnosi się do potrzeby bezawaryjnego przesłania odczytów do węzła bazowego, jak również poprawnego przesłania komend i zapytań do węzłów sieci oraz poprawnego ich wykonania. Spełnienie tych warunków wymaga wykorzystania odpowiednich protokołów weryfikujących oraz poprawiających przesyłane dane w każdej z warstw komunikacyjnych \cite{Kakamanshadi2015}.
+
+\paragraph{Bezpieczeństwo}
+W zależności od wymagań związanych z danym wdrożeniem konieczny jest różny poziom zabezpieczeń. Do przykładowych zabezpieczeń należą: kryptografia klucza publicznego, ochrona przed atakami DoS (denial of service), odporność na przejęcie węzła, wykrywanie włamań. Zastosowane rozwiązanie powinno brać pod uwagę ograniczone zasoby węzła \cite{Pathan2010}.
+
+\bigskip
+
+Przykładami zastosowań sieci czujnikowych są gromadzenie danych, monitoring, telemetria medyczna \cite{Biradar2009}.
+
+\section{Czujnik}
+Czujnik z technicznego punktu widzenia jest urządzeniem, którego zadaniem jest zbieranie informacji o obiektach i procesach fizycznych wraz ze zmianami ich stanu \cite{Dargie2010}.
 
 W celu stworzenia sieci czujników konieczne jest wcześniejsze zaprojektowanie i stworzenie pojedynczego węzła. Bardzo często narzucone są na nie dodatkowe ograniczenia: wielkość, pobór energii, koszt wytworzenia. Dodatkowo muszą posiadać odpowiednie czujniki, moduły komunikacyjne oraz moc obliczeniową odpowiednią do ich obsłużenia. W książce \cite{Karl2006} architekturę sprzętową pojedynczego węzła rozbito na pięć komponentów:
 \begin{enumerate}
 	\item Sterownik - komponent odpowiedzialny za zbieranie danych z czujników oraz ich przetwarzanie. Ponadto decyduje on kiedy oraz gdzie wysłać te dane oraz steruje zachowaniem aktuatorów. Funkcje te realizuje dzięki wykonywaniu instrukcji zawartych w kodzie uprzednio napisanych programów. Sterownik można zrealizować wykorzystując różne architektury układów scalonych. Najczęściej używane są mikrokontrolery. Głównymi ich zaletami są łatwość w komunikacji z urządzeniami zewnętrznymi takimi jak np. czujniki, niski pobór energii (mogą zostać również przełączone w tryb uśpienia) oraz łatwa programowalność.
-	\item Pamięć - komponent przechowujący programy oraz dane. Do przechowywania odczytów z czujników przed wysyłką lub przetworzniem oraz odebranych pakietów wykorzystuje się pamięć RAM. Programy zapisywane są w pamięci ROM, EEPROM lub Flash. Pamięć Flash bywa również używana do przechowywania pomiarów w sytuacjach, gdy pamięć RAM okazuje się niewystarczająca lub w celu zapisu danych z pamięci RAM przed wyłączeniem czujnika.   
+	\item Pamięć - komponent przechowujący programy oraz dane. Do przechowywania odczytów z czujników przed wysyłką lub przetworzeniem oraz odebranych pakietów wykorzystuje się pamięć RAM. Programy zapisywane są w pamięci ROM, EEPROM lub Flash. Pamięć Flash bywa również używana do przechowywania pomiarów w sytuacjach, gdy pamięć RAM okazuje się niewystarczająca lub w celu zapisu danych z pamięci RAM przed wyłączeniem czujnika.   
 	\item Czujniki i aktuatory - urządzenia zbierające informacje o środowisku zewnętrznym oraz urządzenia wpływające na jego stan. Mogą to być między innymi czujniki wielkości elektrycznych, pola magnetycznego, wykrywacze fal radiowych, czujniki optyczne, elektrooptyczne, podczerwieni, lasery, radary, lokalizacyjne, fal sejsmicznych, badające parametry środowiskowe (pęd wiatru, temperaturę, wilgotność, ciśnienie), biochemiczne \cite{Sohraby2006}.
 	\item Komunikacja - komponent odpowiedzialny za wysyłanie oraz odbieranie danych za pośrednictwem bezprzewodowego kanału komunikacyjnego. Najczęściej wykorzystywanym medium są fale radiowe - umożliwiają one wysyłanie danych na relatywnie długie dystanse przy małym zużyciu energii. 
 	\item Zasilanie - najczęściej są to baterie lub ogniwa słoneczne
@@ -33,7 +65,54 @@ W celu stworzenia sieci czujników konieczne jest wcześniejsze zaprojektowanie 
 	\caption{Architektura węzła sieci czujnikowej}
 \end{figure}
 
-\section{Trasowanie w WSN}
+\section{Stos sieciowy bezprzewodowych sieci czujnikowych}
+
+Bezprzewodowa sieć czujnikowa jest zbiorem wielofunkcyjnych węzłów czujnikowych zorganizowanych w sieć typu ad hoc. Wyróżnia się przy tym dwa główne schematy komunikacji. Pierwszym z nich odpowiada topologii gwiazdy, w której węzły komunikują się bezpośrednio z węzłem bazowym (komunikacja z jednym przeskokiem - single-hop). Drugi opisuje komunikację, w której pakiet danych przesyłany jest do węzła bazowego za pośrednictwem wielu węzłów z wykorzystaniem trasowania (komunikacja z wieloma przeskokami - multi-hop). Ten sposób pozwala na zmniejszenie zużycia energii, ponieważ zazwyczaj węzły rozmieszczone są w relatywnie małych odległościach od siebie (zagęszczenie może dochodzić nawet do 20 węzłów na $m^{3}$ \cite{Shih2001}).
+
+Bezprzewodowe sieci czujnikowe posiadają jednak również pewne istotne różnice w stosunku do tradycyjnych sieci typu ad-hoc:
+\begin{itemize}
+\item Ograniczone zasoby energetyczne - często węzły sieci znajdują się w odległych, trudno dostępnych lokalizacjach, co uniemożliwia wymianę ich baterii. Wymusza to minimalizację zużycia energii, w celu uzyskania jak najdłuższego działania sieci.
+\item Brak globalnych identyfikatorów węzłów sieci - w zastępstwie używana jest klasteryzacja.
+\item Niedeterministyczne rozmieszczenie węzłów sieci - sieci organizuje się sama.
+\end{itemize}
+
+Stos protokołów bezprzewodowej sieci czujnikowej musi więc być zgodny z wymienionymi wcześniej cechami oraz osobliwościami tychże sieci. Okazuje się, że  stos protokołów sieciowych dla bezprzewodowych sieci czujnikowych przypomina tradycyjny model OSI (z wyłączeniem warstw prezentacji oraz sesji) \cite{Akyildiz2002.09}. Zawiera on następujące warstwy: aplikacji, transportową, sieciową, łącza danych oraz fizyczną.
+
+\paragraph{Warstwa fizyczna}
+Warstwa fizyczna odpowiedzialna jest za wybór częstotliwości, generowanie częstotliwości fali nośnej, wykrywanie i modulację sygnału oraz szyfrowanie danych. Przy projektowaniu warstwy fizycznej dla bezprzewodowych sieci czujnikowych zużycie energii jest istotniejszym czynnikiem od propagacji i zanikania fali. W ogólnym przypadku ilość energii potrzebna do transmisji sygnału na odległość $d$ jest proporcjonalna do $d^{n}$, gdzie $2 <= n < 4$. Wykładnik $n$ jest bliższy wartości $4$ dla nisko osadzony w stosunku do poziomu ziemi anten \cite{Sohrabi1999} - co jest typowym przypadkiem dla sieci czujnikowych. W celu mitygacji tego problemu stosuje się komunikację wieloskokową (multi-hop) wykorzystując fakt gęstego rozmieszczenia węzłów sieci \cite{Akyildiz2002.09}.
+Krytyczny dla bezawaryjnej komunikacji jest również wybór odpowiedniego rodzaju modulacji, takiego jak np. MFSK, OQPSK, MQAM czy UWB.
+
+\paragraph{Warstwa łącza danych}
+Warstwa łącza danych jest odpowiedzialna za multipleksowanie strumieni danych, wykrywanie ramek danych, dostęp do łącza (MAC) oraz detekcję błędów. Dla bezprzewodowych sieci czujnikowych tworzone są wyspecjalizowane protokoły MAC, które muszą spełniać dwa założenia \cite{Akyildiz2002.09, Demirkol2006}.
+\begin{enumerate}
+\item Stworzenie infrastruktury sieci, w tym utworzenie połączeń komunikacyjnych pomiędzy tysiącami węzłów.
+\item Umożliwienie wydajnego współdzielenia zasobów komunikacyjnych pomiędzy wszystkimi węzłami sieci.
+\end{enumerate}
+Dodatkowo należy wziąć pod uwagę wysoką decentralizację sieci oraz jej dynamicznie zmienną topologię. Przykładami takich dedykowanych protokołów MAC mogą być S-MAC \cite{Ye2002}, WiseMAC \cite{Hoiydi2004}, CSMA \cite{Althobaiti2015} czy też TDMA \cite{Althobaiti2015}.
+
+\paragraph{Warstwa sieciowa}
+Podobnie, jak w przypadku protokołów warstwy łącza danych również i dla tej warstwy zostały stworzone dedykowane protokoły trasowania. Trasowanie w bezprzewodowych sieciach czujnikowych zostało szerzej opisane w podrozdziale \ref{routing}.
+
+\paragraph{Warstwa transportowa}
+Potrzeba wykorzystania warstwy transportowej pojawia się w momencie, gdy planowany jest dostęp do sieci czujnikowej z sieci Internet lub innej zewnętrznej sieci. Protokoły transportowe dla bezprzewodowych sieci czujnikowych powinny spełnić szereg warunków:
+\begin{itemize}
+\item Kontrola nad przeciążeniem sieci
+\item Uproszczenie inicjowania połączeń w celu zwiększenia przepustowości sieci oraz ograniczenia opóźnień
+\item Minimalizacja utraty pakietów
+\item Zapewnienie każdemu węzłowi sieci takiej samej przepustowości łącza
+\item Komunikacja z pozostałymi warstwami sieci - mogą one dostarczyć cennych informacji protokołowi komunikacyjnemu, np. dotyczących nieudanego trasowania.
+\end{itemize}
+Tradycyjnie używane protokoły takie jak TCP i UDP nie są odpowiednie dla bezprzewodowych sieci czujnikowych \cite{Fahmy2016-2}. Do dedykowanych protokołów należą m. in. CODA \cite{Wan2003}, ESRT \cite{Akan2005}, RMST \cite{Stann2003} czy PSFQ \cite{Wan2002}.
+
+\paragraph{Warstwa aplikacji}
+Warstwa aplikacji stanowi abstrakcję nad fizyczną topologią bezprzewodowej sieci czujników na potrzeby aplikacji. Dodatkowo zapewnia ona użytkownikom interfejs do interakcji ze światem fizycznym za pośrednictwem sieci czujników. Wyróżnia się kilka kategorii protokołów warstwy aplikacji \cite{Akyildiz2010}:
+\begin{itemize}
+\item Kompresja danych - stosowana jest za każdym razem, gdy dany węzeł uzyskał nową informację do przesłania. Dzięki kompresji możliwa jest minimalizacja wielkości przesyłanych pakietów danych. Najczęściej używanym rodzajem kompresji w bezprzewodowych sieciach czujnikowych jest kompresja bezstratna. Ze względu na ograniczoną pamięć oraz moc obliczeniową węzłów nie można zastosować standardowych algorytmów takich jak LZW, czy gzip. Do specjalnie zaprojektowanych na potrzeby bezprzewodowych sieci czujnikowych algorytmów należą Sensor–LZW \cite{Sadler2006} oraz DSC \cite{Slepian1973, Wyner1976}.
+\item Przetwarzanie zapytań - dostęp do żądanych danych zapewnia użytkownikowi węzeł bazowy za pośrednictwem zapytań. Odpowiedzią sieci mogą być zarówno surowe dane przesłane do stacji bazowej, ale często spotykane są również bardziej wyrafinowane schematy przetwarzania zapytań uwzględniające konserwację energii. Z tego punktu widzenia, bezprzewodową sieć czujników można postrzegać jako rozproszoną bazę danych \cite{Madden2002}.
+\item Zarządzanie siecią - dynamiczna natura bezprzewodowych sieci czujnikowych wymaga monitorowania oraz zarządzania jej częściami składowymi. Z potrzeby tej wynikło stworzenie dedykowanych narzędzi administracyjnych, takich jak MANNA \cite{Ruiz2003} czy SNMS \cite{Tolle2005}.
+\end{itemize}
+
+\section{Trasowanie w WSN} \label{routing}
 Bezprzewodowe sieci czujnikowe mają wiele wspólnego z sieciami przewodowymi i ad-hoc, jednakże wykazują również swoje własne, unikatowe cechy oraz związane z nimi wyzwania.
 Jedną z takich cech jest różnorodna gęstość sieci oraz liczba węzłów. Sieci czujnikowe mogą składać się z od kilkuset do kilku tysięcy węzłów rozmieszczonych w sposób losowy o różnorodnym zagęszczeniu. Zachowanie tych węzłów jest dynamiczne, jako że do ich zadań oprócz zbierania danych oraz przesyłania pakietów należy również oszczędzanie własnej energii. Dodatkowo duży wpływ na jakość połączenia mają wysokie poziomy szumu oraz interferencja.
 Istotnym wyzwaniem związanym z sieciami czujników jest również model danych oraz ich przepływu, który różni się w zależności od konkretnego rozwiązania, w którym sieć jest wykorzystywana. Węzły sieci mogą cyklicznie wysyłać do stacji bazowej próbkę danych. W modelu zdarzeniowym węzeł sieci wysyła pakiet po wystąpieniu określonego zjawiska. Istnieją również implementacje wymagające od węzłów sieci przetwarzania oraz agregacji danych przez węzeł przed ich wysyłką, czy takie, które wymagają komunikacji dwukierunkowej pomiędzy węzłami a stacją bazową.
@@ -43,16 +122,13 @@ Istotnym wyzwaniem związanym z sieciami czujników jest również model danych 
 
 Taka różnorodność modeli przepływu danych oraz innych wyzwań wymagają zastosowania odpowiednio zoptymalizowanych algorytmów trasowania \cite{Abdullah2014, Sohraby2006}.
 
-Z powodu różnych potrzeb odnośnie trasowania pakietów zaproponowany został szereg metryk dotyczących zasobów sieci. Celem protokołów trasowania jest optymalizacja ich wykorzystania \cite{Dargie2010, Biradar2009}.
-
-Minimalizacja ścieżki pakietu do węzła bazowego
-
-Minimalizacja energii zużytej na wysłanie pakietu
-
-Maksymalizacja czasu, po którym następuje podział sieci
-
-Minimalizacja wariancji poziomów energii węzłów
-
+Z powodu różnych potrzeb odnośnie trasowania pakietów zaproponowany został szereg metryk dotyczących zasobów sieci. Celem protokołów trasowania jest optymalizacja ich wykorzystania. \cite{Dargie2010, Biradar2009}.
+\begin{itemize}
+ \item Minimalizacja ścieżki pakietu do węzła bazowego
+ \item Minimalizacja energii zużytej na wysłanie pakietu
+ \item Maksymalizacja czasu, po którym następuje podział sieci
+ \item Minimalizacja wariancji poziomów energii węzłów
+\end{itemize}
 
 \subsection{Flood}
 Węzeł wysyłający pakiet rozgłasza go do najbliższych sąsiadów, którzy z kolei powtarzają ten krok, aż pakiet nie dotrze do wszystkich węzłów sieci lub nie osiągnie maksymalnej liczby skoków.
@@ -116,7 +192,7 @@ Po wysyłce pakietu DATA musi upłynąć pewien odstęp czasowy przed ponowną w
 Zgodnie z badaniami opisanymi w artykule \cite{Kulik2002} protokoły SPIN są w stanie dostarczyć 60\% więcej danych w sieciach point-to-point i 80\% więcej danych w sieciach rozgłoszeniowych niż tradycyjne rozwiązania.  
 \subsection{LEACH} \label{subsec:leach}
 LEACH jest protokołem typu hierarchicznego, który wykorzystuje dwa poziomy grupowania węzłów. Pakiety trasowane są od czujników do Cluster Headów i od Cluster Headów do stacji bazowej \cite{Yu2006}.
-Węzły same organizują się w klastry, w których jeden węzeł pełni funkcję lokalnego węzła bazowego - nazywany jest on również Cluster Head. W przeciwieństwie do konwencjonalnych algorytmów lokalne węzły bazowe nie są wybierane a priori. Wybierane są rotacyjnie w sposób losowy, tak aby równomiernie rozłożyć zużycie energii oraz wybierać węzły z możliwie jak największą energią. Dodatkowo LEACH wykorzystuje fuzję danych w celu skompresowania ich ilości przesyłanych z klastra do stacji bazowej \cite{Akkaya2005}%\cite{Heinzelman00}.
+Węzły same organizują się w klastry, w których jeden węzeł pełni funkcję lokalnego węzła bazowego - nazywany jest on również Cluster Head. W przeciwieństwie do konwencjonalnych algorytmów lokalne węzły bazowe nie są wybierane a priori. Wybierane są rotacyjnie w sposób losowy, tak aby równomiernie rozłożyć zużycie energii oraz wybierać węzły z możliwie jak największą energią. Dodatkowo LEACH wykorzystuje fuzję danych w celu skompresowania ich ilości przesyłanych z klastra do stacji bazowej \cite{Akkaya2005, Heinzelman00}.
 
 Działanie algorytmu podzielone jest na rundy. Każda runda składa się z fazy konfiguracyjnej, po której następuje faza stabilnego działania sieci. W fazie początkowej każdy węzeł decyduje o tym czy ma zostać lokalnym węzłem bazowym w aktualnej rundzie. Decyzja ta opiera się na zadanej przez użytkownika liczbie lokalnych węzłów bazowych w sieci (wyrażonej jako procent od liczby wszystkich węzłów sieci) oraz na fakcie uprzedniego bycia lokalnym węzłem bazowym.
 Algorytm ten przebiega w sposób następujący:
@@ -140,9 +216,9 @@ Węzeł, który został wybrany na lokalny węzeł bazowy ogłasza ten fakt  poz
 
 Po dokonaniu wyborów klastrów przez węzły muszą one ów wybór zakomunikować lokalnym węzłom bazowym. Wysyłają więc one pakiet informujący o dołączeniu do klastra lokalnym węzłom bazowym (również z wykorzystaniem protokoły MAC CSMA).
 
-Po otrzymaniu informacji zwrotnej od węzłów, lokalne węzły bazowe tworzą harmonogramy TDMA na podstawie liczby węzłów w klastrze. Z pozostałego czasu rundy przeznaczonego na fazę stabilną wydzielane są dla każdego węzła przedziały czasowe, podczas których mogą one wysłać swoje pakiety z danymi do lokalnego węzła bazowego. Harmonogram zostaje rozgłoszony do wszystkich węzłów w klastrze.
+Po otrzymaniu informacji zwrotnej od węzłów, lokalne węzły bazowe tworzą harmonogramy TDMA na podstawie liczby węzłów w klastrze. Wykorzystanie TDMA umożliwia zredukowanie kolizji podczas komunikacji \cite{Ilyas2004, Ergen2010}. Z pozostałego czasu rundy przeznaczonego na fazę stabilną wydzielane są dla każdego węzła przedziały czasowe, podczas których mogą one wysłać swoje pakiety z danymi do lokalnego węzła bazowego \cite{Cionca2008}. Harmonogram zostaje rozgłoszony do wszystkich węzłów w klastrze.
 
-Po utworzeniu klastrów oraz harmonogramów TDMA, następuje faza stabilnego działania sieci, podczas której węzły przesyłają zebrane dane do lokalnych węzłów bazowych. Każdy węzeł transmituje pakiety w wyznaczonym dla niego przedziale czasowym. Transmisja odbywa się przy użyciu minimalnej energii, tak aby pakiet mógł dotrzeć do lokalnego węzła bazowego. Pozostałe węzły w klastrze (nie biorące udziału w transmisji) mogą w tym czasie wyłączyć odbiorniki radiowe w celu konserwacji energii. Po otrzymaniu pakietu z danymi, lokalny węzeł bazowy przetwarza go oraz agreguje zgodnie z zaimplementowanymi regułami. Sposób kompresji oraz agregacji sygnałów jest dostosowywany do specyfiki danych zbieranych przez sieć (np. dane o temperaturze mogą zostać uśrednione). Po zebraniu danych lokalny węzeł bazowy przesyła je w pakiecie do stacji bazowej, po czym następuje nowa runda.
+Po utworzeniu klastrów oraz harmonogramów TDMA, następuje faza stabilnego działania sieci, podczas której węzły przesyłają zebrane dane do lokalnych węzłów bazowych. Każdy węzeł transmituje pakiety w wyznaczonym dla niego przedziale czasowym. Transmisja odbywa się przy użyciu minimalnej energii, tak aby pakiet mógł dotrzeć do lokalnego węzła bazowego. Pozostałe węzły w klastrze (nie biorące udziału w transmisji) mogą w tym czasie wyłączyć odbiorniki radiowe w celu konserwacji energii. Po otrzymaniu pakietu z danymi, lokalny węzeł bazowy przetwarza go oraz agreguje zgodnie z zaimplementowanymi regułami. Sposób kompresji oraz agregacji sygnałów jest dostosowywany do specyfiki danych zbieranych przez sieć (np. dane o temperaturze mogą zostać uśrednione). Po zebraniu danych lokalny węzeł bazowy przesyła je w pakiecie do stacji bazowej, po czym następuje nowa runda \cite{Yadav2014}.
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[scale=0.3]{\ImgPath/protocols/leach.pdf}
@@ -173,3 +249,5 @@ Celem tego wariantu protokołu LEACH, tak samo jak w przypadku ALEACH, jest wyd�
  \[
 	T(n) =  \frac{P}{1 - P * (r \:mod \frac{1}{P})} * \left[\frac{E_{n_{aktualne}}}{E_{max}} + \left(r_{s} \backslash \frac{1}{p}\right)\left(1 - \frac{E_{n_{aktualne}}}{E_{max}}\right)\right]
 \]
+
+Włączenie aktualnego poziomu energii węzła do wzoru umożliwia zwiększenie prawdopodobieństwa wyboru węzła o większej energii na lokalny węzeł bazowy. Dodatkowo wraz z upływem czasu zwiększa się prawdopodobieństwo wyboru węzłów, które najdłużej nie pełniły tej funkcji. Odpowiada za to fragment $r_{s} \backlash \frac{1}{p}$.
