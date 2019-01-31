@@ -13,7 +13,7 @@ Dla rozkładu normalnego średnia współrzędnej wynosiła 400m, a jej odchylen
 	\caption{Przykładowa dystrybucja węzłów sieci zgodna z rozkładem normalnym}
 \end{figure}
 
-Z rozkładem jednorodnym węzły zostały rozłożone na obszarze o kształcie prostokąta i wymiarach 450m na 550m.
+Z rozkładem jednorodnym węzły zostały rozłożone na obszarze o kształcie prostokąta o wymiarach 450m na 550m.
 
 \begin{figure}[!htbp]
 	\begin{center}
@@ -27,44 +27,22 @@ Symulacje przeprowadzono dla sieci składającej się z dwudziestu oraz dwustu c
 \paragraph{Rozmiar pakietu z danymi}
 Symulacje przeprowadzono dla rozmiarów pakietów 5B, 50B, 500B, 5000B.
 \paragraph{Częstotliwość generowania nowych danych}
-Symulacje przeprowadzono dla okresów: 5s, 10s, 15s, 20s.
+Symulacje przeprowadzono dla okresów generowania danych wynoszących: 5s, 10s, 15s, 20s.
 \paragraph{Początkowa wartość energii elektrycznej w węźle}
-Jako początkową wartość dla czujnika przyjęto 5J.
+Jako początkową wartość dla czujnika przyjęto 5J, co odpowiada baterii R6 (AA) w skali 1:1000.
 %uzasadnić na krzywej zużycia baterii
 
 Dodatkowo dla protokołów z rodziny LEACH zdefiniowane zostały parametry:
 \paragraph{Procent lokalnych węzłów bazowych w sieci}
 \paragraph{Długość rundy}
-%\paragraph{Współczynnik kompresji danych przez cluster heady}
 
 W celu zniwelowania wpływu losowego rozmieszczenia węzłów na długość działania sieci, dla każdego pojedynczego zestawu parametrów wykonano 5 przebiegów symulacji z różnym ziarnem. Wyniki tych przebiegów zostały uśrednione.
-
-Na poniższym listingu znajduje się fragment pliku konfiguracyjnego symulacji.
-\begin{verbatim}
-**.numSensors = ${numSensors = 20, 200, 2000}
-**.app.protocol = 59
-**.app.packetLength = ${packetLength = 5, 50, 500, 5000}B
-**.app.startTime = 1s + exponential(10ms)
-**.networkLayerType = "FloodNetworkLayer"
-**.sink.protocol = 59
-**.broadcastSinkAddress = false
-**.sink.nic.mac.address = "FF-FF-FF-FF-FF-FE"
-**.app.destAddresses = "FF-FF-FF-FF-FF-FE"
-**.np.sinkAddr = "FF-FF-FF-FF-FF-FE"
-**.radio.displayCommunicationRange = true
-**.app.sendInterval = ${sendInterval = 5, 10, 15, 20}s + exponential(10ms)
-
-**.sensor[*].energyStorage.nominalCapacity = ${nodeEnergy = 5}J
-**.sink.energyStorage.nominalCapacity = 4J * ${nodeEnergy}
-**.energyStorage.nodeShutdownCapacity = ${nodeEnergy} * 0.1J
-**.energyStorage.nodeStartCapacity = ${nodeEnergy} * 0.2J
-\end{verbatim}
 
 Dla każdej symulacji zostały również zdefiniowane stałe warunki środowiskowe:
 \begin{itemize}
 	\item Przestrzeń - idealnie płaski teren bez żadnych przeszkód.
 	\item Prędkość propagacji fali - założono model propagacji fali ze stałą prędkością. Oznacza to, że czas propagacji jest proporcjonalny do przebytej odległości zdeterminowanej przez stały parametr prędkości.
 	\item Tłumienie trasy radiowej - założono model Breakpoint path loss.
-	\item Szum tła - założono szum izotropiczny o mocy -96.616dBm.
+	\item Szum tła - założono szum izotropowy o mocy -96.616dBm.
 	\item Do reprezentacji sygnału analogowego wykorzystany został model skalarny - opisuje on sygnał za pomocą jego mocy skalarnej, szerokości pasma oraz częstotliwości fali nośnej.
 \end{itemize}
