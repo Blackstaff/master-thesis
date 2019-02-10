@@ -1,6 +1,20 @@
+\makeatletter
+\newcommand{\unchapter}[1]{%
+  \begingroup
+  \let\@makechapterhead\@gobble % make \@makechapterhead do nothing
+  \chapter{#1}
+  \endgroup
+}
+\makeatother
+
+\unchapter{Dodatkowe wykresy}
+
 \clearpage
 \thispagestyle{empty}
 
+\begin{textblock*}{120mm}(.85\textwidth,-4cm)
+Dodatek A
+\end{textblock*}
 {\pdfpagewidth=2\pdfpagewidth
     \vspace*{-2cm}
     \noindent\kern.5\pdfpagewidth\rlap{\parbox{\textwidth}{%
