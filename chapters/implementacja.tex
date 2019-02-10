@@ -3,12 +3,12 @@ W ramach pracy powstała biblioteka zawierająca moduły ułatwiające implement
 
 Biblioteka składa się z następujących modułów:
 \begin{itemize}
-	\item WSNNode --- złożony moduł ,,abstrakcyjny'' stanowiący bazę dla węzłów sieci. W jego skład wchodzą:
+	\item WSNNode --- złożony moduł ,,abstrakcyjny'' stanowiący bazę dla węzłów sieci. W~jego skład wchodzą:
 \begin{enumerate}
 \item Moduły pochodzące z biblioteki INET:
 \paragraph{Moduł mobilności} Jest to moduł zarządzający położeniem oraz mobilnością węzła. Jako, że zakres pracy obejmuje węzły stacjonarne, jako wartość domyślna został przyjęty moduł StationaryMobility, który jedynie śledzi położenie węzła.
 \paragraph{Źródło energii} Jako źródło energii wykorzystany został udostępniony przez Inet moduł prostego zasobnika energii (SimpleEnergyStorage).
-\paragraph{Tablica interfejsów} Przechowuje informacje o interfejsach danego węzła. W przypadku objątych tą pracą symulacji jest to jeden interfejs radiowy.
+\paragraph{Tablica interfejsów} Przechowuje informacje o interfejsach danego węzła. W~przypadku objątych tą pracą symulacji jest to jeden interfejs radiowy.
 \paragraph{Moduł karty sieciowej} Jest to moduł symulujący kartę sieciową. Zawiera się w nim moduł odpowiadający za warstwę fizyczną oraz moduł łącza danych.
 \paragraph{Moduł stanu węzła} Jest to moduł informujący o aktualnym stanie węzła.
 \item Moduły stworzone w ramach pracy dyplomowej:
@@ -161,7 +161,7 @@ class SPIN : public NetworkProtocolBase,
     public INetworkProtocol
 \end{minted}
 
-Moduł po otrzymaniu pakietu z wyższej warstwy za pomocą funkcji \textit{isNegotiationViable()} dokonuje decyzji, czy węzeł ma dostatecznie dużo energii, aby przeprowadzić negocjację. W przypadku pozytywnej decyzji rozpoczynany jest proces negocjacji. W przeciwnym wypadku dane rozgłaszane są bezpośrednio, z pominięciem negocjacji funkcją \textit{simpleSend(msg)} z linii 10. Całość procesu przetwarzania pakietów z wyższej warstwy obrazuje poniższy fragment kodu.
+Moduł po otrzymaniu pakietu z wyższej warstwy za pomocą funkcji \textit{isNegotiationViable()} dokonuje decyzji, czy węzeł ma dostatecznie dużo energii, aby przeprowadzić negocjację. W~przypadku pozytywnej decyzji rozpoczynany jest proces negocjacji. W~przeciwnym wypadku dane rozgłaszane są bezpośrednio, z pominięciem negocjacji funkcją \textit{simpleSend(msg)} z linii 10. Całość procesu przetwarzania pakietów z wyższej warstwy obrazuje poniższy fragment kodu.
 
 \begin{minted}[linenos]{cpp}
 void SPIN::handleUpperPacket(cPacket *m)
@@ -179,7 +179,7 @@ void SPIN::handleUpperPacket(cPacket *m)
 }
 \end{minted}
 
-Teoretyczny opis protokołu SPIN nie zawiera algorytmu, który węzły powinny wykorzystywać przy podejmowaniu decyzji czy rozpoczęcie procesu negocjacji jest zasadne z punktu widzenia oszczędnego korzystania z zasobów energetycznych. W implementacji zaproponowany więc został algorytm wykorzystujący funkcję prawdopodobieństwa o poniższym wzorze ogólnym:
+Teoretyczny opis protokołu SPIN nie zawiera algorytmu, który węzły powinny wykorzystywać przy podejmowaniu decyzji czy rozpoczęcie procesu negocjacji jest zasadne z punktu widzenia oszczędnego korzystania z zasobów energetycznych. W~implementacji zaproponowany więc został algorytm wykorzystujący funkcję prawdopodobieństwa o poniższym wzorze ogólnym:
 \[
 	f(x) = \frac{k*x}{k - x + 1}, x \in <0, 1>
 \]
@@ -203,7 +203,7 @@ Jako parametr k przyjęte zostało 1,2, a jako zmienną x stosunek aktualnej ene
 	\end{center}
 	\caption{Wykres funkcji prawdopodobieństwa dla $x \in <0, 1>$ i $k = 1.2$}
 \end{figure}
-Algorytm decyzyjny przedstawiony jest na poniższym listingu. Z przedziału [0, 1] losowana jest liczba, która następnie porównywana jest z wartością wcześniej opisanej funkcji. Jeżeli wylosowana liczba jest od niej mniejsza, podejmowana jest pozytywna decyzja o podjęciu negocjacji.
+Algorytm decyzyjny przedstawiony jest na poniższym listingu. Z~przedziału [0, 1] losowana jest liczba, która następnie porównywana jest z wartością wcześniej opisanej funkcji. Jeżeli wylosowana liczba jest od niej mniejsza, podejmowana jest pozytywna decyzja o podjęciu negocjacji.
 \begin{minted}{cpp}
 bool SPIN::isNegotiationViable()
 {
@@ -217,10 +217,10 @@ bool SPIN::isNegotiationViable()
 \end{minted}
 \subsection{LEACH i jego warianty}
 Implementacja protokołu LEACH została wykonana na bazie istniejącej implementacji z symulatora Castalia. Pomimo zbieżności w architekturze silnika
-symulacyjnego (Castalia oparta została na \omnetpp) konieczne było wprowadzenie szeregu zmian i poprawek.
+symulacyjnego (Castalia oparta została na \omnetpp) konieczne było wprowadzenie szeregu zmian i~poprawek.
 
 
-W ALEACH zmieniony został sposób wyboru lokalnego węzła bazowego. W implementacji wykorzystany został mechanizm dziedziczenia. Klasa ALEACH stanowi rozszerzenie wcześniej zaimplementowanej klasy LEACH. Jedyną zmianą jest przesłonięcie funkcji \textit{selectCH} za pomocą tej zdefiniowanej na listingu poniżej, która realizuje założenia zawarte w akapicie \nameref{para:aleach} zawartym w podrozdziale \ref{subsec:leach}.
+W ALEACH zmieniony został sposób wyboru lokalnego węzła bazowego. W~implementacji wykorzystany został mechanizm dziedziczenia. Klasa ALEACH stanowi rozszerzenie wcześniej zaimplementowanej klasy LEACH. Jedyną zmianą jest przesłonięcie funkcji \textit{selectCH} za pomocą tej zdefiniowanej na listingu poniżej, która realizuje założenia zawarte w~akapicie \nameref{para:aleach} zawartym w~podrozdziale \ref{subsec:leach}.
 \begin{minted}{cpp}
 void ALEACH::selectCH()
 {
@@ -236,7 +236,7 @@ void ALEACH::selectCH()
 }
 \end{minted}
 
-Protokół Leach DCHS zaimplementowany został w sposób analogiczny do protokołu ALEACH.
+Protokół Leach DCHS zaimplementowany został w~sposób analogiczny do protokołu ALEACH.
 \begin{minted}{cpp}
 void LEACH_DCHS::selectCH()
 {
@@ -250,9 +250,9 @@ void LEACH_DCHS::selectCH()
 }
 \end{minted}
 \section{Poprawa biblioteki INET}
-Biblioteka INET jest aktywnie rozwijana oraz poprawiana. Jednakże część biblioteki implementująca moduły związane z sieciami czujnikowymi oraz sieciami typu BAN są zdecydowanie rzadziej aktualizowane. W ramach niniejszej pracy został stworzony szereg dedykowanych poprawek dla projektu:
+Biblioteka INET jest aktywnie rozwijana oraz poprawiana. Jednakże część biblioteki implementująca moduły związane z~sieciami czujnikowymi oraz sieciami typu BAN są zdecydowanie rzadziej aktualizowane. W~ramach niniejszej pracy został stworzony szereg dedykowanych poprawek dla projektu:
 
-\paragraph{RSSI} Biblioteka INET nie udostępnia warstwie sieciowej RSSI, którego wartość jest niezbędna w implementacji protokołów LEACH. Problem został już wcześniej zasygnalizowany przez jednego z użytkowników, jednakże nie został on rozwiązany. W ramach pracy powstała poprawka udostępniająca ten parametr.
+\paragraph{RSSI} Biblioteka INET nie udostępnia warstwie sieciowej RSSI, którego wartość jest niezbędna w~implementacji protokołów LEACH. Problem został już wcześniej zasygnalizowany przez jednego z~użytkowników, jednakże nie został on rozwiązany. W~ramach pracy powstała poprawka udostępniająca ten parametr.
 
 \begin{minted}{diff}
 cPacket *CSMA::decapsMsg(CSMAFrame *macPkt)
@@ -269,7 +269,7 @@ cPacket *CSMA::decapsMsg(CSMAFrame *macPkt)
 }
 
 /**
- * Attaches a "control info" (MacToNetw) structure (object)
+ * Attaches a~"control info" (MacToNetw) structure (object)
  * to the message pMsg.
  */
 - cObject *CSMA::setUpControlInfo(cMessage *const pMsg,
@@ -286,7 +286,7 @@ cPacket *CSMA::decapsMsg(CSMAFrame *macPkt)
 }
 \end{minted}
 
-\paragraph{Dodanie możliwości zmiany modułu MAC w Ieee802154NarrowbandNic} W pierwotnej wersji rodzaj modułu MAC został zdefiniowany w sposób nie umożliwiający jego zmiany. Poprawka polega na wykorzystaniu zmiennej do przechowywania nazwy modułu MAC, który ma zostać dodany.
+\paragraph{Dodanie możliwości zmiany modułu MAC w~Ieee802154NarrowbandNic} W~pierwotnej wersji rodzaj modułu MAC został zdefiniowany w~sposób nie umożliwiający jego zmiany. Poprawka polega na wykorzystaniu zmiennej do przechowywania nazwy modułu MAC, który ma zostać dodany.
 \begin{minted}{diff}
 module Ieee802154NarrowbandNic like IWirelessNic
 {
@@ -312,7 +312,7 @@ module Ieee802154NarrowbandNic like IWirelessNic
 }
 \end{minted}
 
-\paragraph{Poprawa modułu IPvXTrafGen, tak aby prawidłowo zachowywał się podczas deaktywacji węzła} Klasa implementująca moduł IPvXTrafGen dziedziczyła po klasie cSimpleModule, która nie wchodzi bezpośrednio w skład biblioteki INET (jest częścią \omnetpp). W związku z tym nie zostały w niej zaimplementowane funkcje związane z aktywnością węzła. Problem ten został naprawiony poprzez dokonanie zmiany rodzica klasy IPvXTrafGen na klasę ApplicationBase z biblioteki INET. Stanowi ona bazę dla klas implementujących zachowania modułów prostych należących do warstwy aplikacji. Udostępnione zostały również dzięki temu interfejsy związane z aktywacją oraz dezaktywacją węzła sieci.
+\paragraph{Poprawa modułu IPvXTrafGen, tak aby prawidłowo zachowywał się podczas deaktywacji węzła} Klasa implementująca moduł IPvXTrafGen dziedziczyła po klasie cSimpleModule, która nie wchodzi bezpośrednio w~skład biblioteki INET (jest częścią \omnetpp). W~związku z~tym nie zostały w~niej zaimplementowane funkcje związane z~aktywnością węzła. Problem ten został naprawiony poprzez dokonanie zmiany rodzica klasy IPvXTrafGen na klasę ApplicationBase z~biblioteki INET. Stanowi ona bazę dla klas implementujących zachowania modułów prostych należących do warstwy aplikacji. Udostępnione zostały również dzięki temu interfejsy związane z~aktywacją oraz dezaktywacją węzła sieci.
 
 \begin{minted}{diff}
 - class INET_API IPvXTrafGen : public cSimpleModule,
@@ -344,7 +344,7 @@ module Ieee802154NarrowbandNic like IWirelessNic
 +    virtual void handleNodeCrash() override;
 \end{minted}
 
-\paragraph{Uzupełnienie modułu CSMA o funkcje obsługujące jego wyłączenie oraz ponowne włączenie} Przed poprawką, wyłącznie się symulowanego węzła (w wyniku zużycia energii) powodowało wystąpienie wyjątku i awaryjne zakończenie symulacji.
+\paragraph{Uzupełnienie modułu CSMA o~funkcje obsługujące jego wyłączenie oraz ponowne włączenie} Przed poprawką, wyłącznie się symulowanego węzła (w wyniku zużycia energii) powodowało wystąpienie wyjątku i~awaryjne zakończenie symulacji.
 
 \begin{minted}{cpp}
 bool CSMA::handleNodeStart(IDoneCallback *doneCallback)
@@ -381,7 +381,7 @@ void CSMA::handleNodeCrash()
 }
 \end{minted}
 
-\paragraph{Obsługę przypadku, gdy pakiet dociera do wyłączonego już węzła} Dodana została obsługa przypadku brzegowego, w którym węzeł zostawał wyłączony podczas odbioru transmisji pakietu.
+\paragraph{Obsługę przypadku, gdy pakiet dociera do wyłączonego już węzła} Dodana została obsługa przypadku brzegowego, w~którym węzeł zostawał wyłączony podczas odbioru transmisji pakietu.
 \begin{minted}{cpp}
 bool Radio::handleNodeShutdown(...) {
     ...
